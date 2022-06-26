@@ -20,8 +20,6 @@ Finally, a very simplified version of vpatch's frame limiter is used without `Au
 
 # TODO
 - Support more games
-- Figure out why fullscreen breaks after alt-tabbing
 - Make it more configurable
 - Take a look at vpatch's `AutoBltPrepareTime` algorithm
-- Take advantage of `IDirect3DDevice9Ex::WaitForVBlank`
 - Probably more stuff I forgot

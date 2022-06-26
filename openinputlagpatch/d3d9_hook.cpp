@@ -35,6 +35,36 @@ HRESULT __stdcall CreateVertexBuffer_hook(IDirect3DDevice9Ex* self, UINT Length,
 	return CreateVertexBuffer_orig(self, Length, Usage, FVF, Pool, ppVertexBuffer, pSharedHandle);
 }
 
+// Modifies presentation parameters to work properly with Direct3D9Ex
+void modify_presentation_parameters(D3DPRESENT_PARAMETERS* params) {
+	params->PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	params->FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+	params->SwapEffect = D3DSWAPEFFECT_DISCARD;
+	params->BackBufferCount = 0;
+}
+
+// Gets the display mode for fullscreen
+// TODO: This should be configurable!
+void get_fullscreen_display_mode(D3DDISPLAYMODEEX* mode) {
+	mode->Size = sizeof(D3DDISPLAYMODEEX);
+	mode->Width = 640;
+	mode->Height = 480;
+	mode->RefreshRate = D3DPRESENT_RATE_DEFAULT;
+	mode->Format = D3DFMT_X8R8G8B8;
+	mode->ScanLineOrdering = D3DSCANLINEORDERING_PROGRESSIVE;
+}
+
+// Same as CreateDevice_hook but for Reset
+HRESULT __stdcall Reset_hook(IDirect3DDevice9Ex* self, D3DPRESENT_PARAMETERS* pPresentationParameters) {
+	printf("Reset intercepted!\n");
+	modify_presentation_parameters(pPresentationParameters);
+
+	D3DDISPLAYMODEEX display_mode = {};
+	get_fullscreen_display_mode(&display_mode);
+
+	return self->ResetEx(pPresentationParameters, pPresentationParameters->Windowed ? NULL : &display_mode);
+}
+
 // Hooks certain D3D9Ex device functions for better compatibility and to force disable vsync
 HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags,
 	D3DPRESENT_PARAMETERS* pPresentationParameters, IDirect3DDevice9Ex** ppReturnedDeviceInterface)
@@ -42,23 +72,14 @@ HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE
 	printf("CreateDevice intercepted! DeviceType: %d\n", DeviceType);
 
 	// Disable vsync on the parameters
-	pPresentationParameters->PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-	pPresentationParameters->FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
-	pPresentationParameters->SwapEffect = D3DSWAPEFFECT_DISCARD;
-	pPresentationParameters->BackBufferCount = 0;
+	modify_presentation_parameters(pPresentationParameters);
 	
 	// Create the device
 	IDirect3DDevice9Ex* device = nullptr;
 	HRESULT res = 0;
 	if (pPresentationParameters->Windowed == FALSE) {
-		// TODO: This should be configurable!
 		D3DDISPLAYMODEEX display_mode = {};
-		display_mode.Size = sizeof(display_mode);
-		display_mode.Width = 640;
-		display_mode.Height = 480;
-		display_mode.RefreshRate = D3DPRESENT_RATE_DEFAULT;
-		display_mode.Format = D3DFMT_X8R8G8B8;
-		display_mode.ScanLineOrdering = D3DSCANLINEORDERING_PROGRESSIVE;
+		get_fullscreen_display_mode(&display_mode);
 
 		res = self->CreateDeviceEx(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, &display_mode, &device);
 	} else {
@@ -70,6 +91,9 @@ HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE
 	}
 	*ppReturnedDeviceInterface = device;
 
+	// D3D9Ex breaks the window style for some reason
+	SetWindowPos(hFocusWindow, 0, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_SHOWWINDOW);
+
 	// Set the maximum amount of frames that can be queued to 1 instead of 3
 	// Should shave off 0 to 2 frames of lag
 	device->SetMaximumFrameLatency(1);
@@ -80,8 +104,11 @@ HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE
 
 	// Overwrite some vtable entries in IDirect3DDevice9Ex
 	DWORD* device_vtbl = *(DWORD**)device;
+	auto patch_data = (DWORD)Reset_hook;
+	patch_bytes(&device_vtbl[16], &patch_data, sizeof(DWORD));
+
 	CreateTexture_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, IDirect3DTexture9**, HANDLE*))device_vtbl[23];
-	auto patch_data = (DWORD)CreateTexture_hook;
+	patch_data = (DWORD)CreateTexture_hook;
 	patch_bytes(&device_vtbl[23], &patch_data, sizeof(DWORD));
 
 	CreateVertexBuffer_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*, UINT, DWORD, DWORD, D3DPOOL, IDirect3DVertexBuffer9**, HANDLE*))device_vtbl[26];
