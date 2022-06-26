@@ -1,0 +1,27 @@
+# OpenInputLagPatch
+
+A **very unfinished** replacement for [vpatch](https://ux.getuploader.com/swmplv75e/), which fixes frame limiter and input lag issues in Touhou games.
+
+Currently, only EoSD v1.02h is supported. Porting support for other games should be very easy, though.
+
+# Usage
+1. Compile as x86/Release
+2. Rename the output to dinput8.dll
+3. Copy the DLL to your game directory
+4. Install [d3d8to9](https://github.com/crosire/d3d8to9) **(The ENB converter will not work!)**
+4. Run the game as usual
+
+# Technical details
+The game loop is modified to disable the in-game frame limiter and also to run the drawing logic *after* the game update logic instead of the other way around, which should shave off a frame of input lag.
+
+`Direct3D9Create` is hooked to use `Direct3D9CreateEx` instead, which allows the use of `IDirect3DDevice9Ex::SetMaximumFrameLatency`, which should shave off an additional 0 to 2 frames of input lag.
+
+Finally, a very simplified version of vpatch's frame limiter is used without `AutoBltPrepareTime` and a hardcoded `BltPrepareTime` of 2 ms.
+
+# TODO
+- Support more games
+- Figure out why fullscreen breaks after alt-tabbing
+- Make it more configurable
+- Take a look at vpatch's `AutoBltPrepareTime` algorithm
+- Take advantage of `IDirect3DDevice9Ex::WaitForVBlank`
+- Probably more stuff I forgot
