@@ -74,6 +74,10 @@ HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE
 	// Should shave off 0 to 2 frames of lag
 	device->SetMaximumFrameLatency(1);
 
+	// Set the CPU and GPU threads to high priority
+	device->SetGPUThreadPriority(7);
+	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
+
 	// Overwrite some vtable entries in IDirect3DDevice9Ex
 	DWORD* device_vtbl = *(DWORD**)device;
 	CreateTexture_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, IDirect3DTexture9**, HANDLE*))device_vtbl[23];
