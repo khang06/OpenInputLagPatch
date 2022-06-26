@@ -5,6 +5,8 @@
 #include <d3d9.h>
 #include "patch_util.h"
 
+static IDirect3DDevice9Ex* d3d9ex_device = nullptr;
+
 // Replaces D3DPOOL_MANAGED with D3DPOOL_DEFAULT because it's deprecated on D3D9Ex
 auto CreateTexture_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, IDirect3DTexture9**, HANDLE*))nullptr;
 HRESULT __stdcall CreateTexture_hook(IDirect3DDevice9Ex* self, UINT Width, UINT Height, UINT Levels, DWORD Usage, D3DFORMAT Format,

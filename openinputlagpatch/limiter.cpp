@@ -1,9 +1,9 @@
 // Basic frame limiter
 // Heavily simplified version of vpatch's limiter with no timers or fancy autobltpreparetime
-// TODO: IDirect3DDevice9Ex::WaitForVBlank looks useful
 
 #include <Windows.h>
 #include <stdio.h>
+#include "d3d9_hook.h"
 
 LARGE_INTEGER limiter_start;
 unsigned int frame_num;
@@ -27,6 +27,9 @@ void limiter_tick() {
 			QueryPerformanceCounter(&cur_time);
 	} else {
 		printf("Frame limiter fell behind!!! Resyncing...\n");
+		if (d3d9ex_device)
+			d3d9ex_device->WaitForVBlank(0);
+		QueryPerformanceCounter(&cur_time);
 		limiter_start.QuadPart = cur_time.QuadPart;
 		frame_num = 0;
 	}
