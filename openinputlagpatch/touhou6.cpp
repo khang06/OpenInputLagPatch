@@ -20,7 +20,7 @@ int __fastcall update_calc_chain_hook() {
     engine->d3d8_device->SetViewport(&engine->viewport);
     auto ret = CChainManager__UpdateCalcChain(CChainManager::Instance);
 
-    if (engine->config.frameskip <= (int)CWindowManager::Instance->frames_skipped) {
+    if (ret != 0 && ret != -1 && engine->config.frameskip <= (int)CWindowManager::Instance->frames_skipped) {
         if ((engine->config.engine_flags >> 4) & 1 | (engine->config.engine_flags >> 3) & 1) {
             D3DVIEWPORT8 viewport;
             viewport.X = 0;
