@@ -20,6 +20,7 @@ Finally, a very simplified version of vpatch's frame limiter is used without `Au
 
 # TODO
 - Support more games
+- Figure out why `D3DProxyWindow` gets stuck on the screen when switching from fullscreen to windowed with fullscreen optimizations enabled
 - Make it more configurable
 - Take a look at vpatch's `AutoBltPrepareTime` algorithm
 - Probably more stuff I forgot
