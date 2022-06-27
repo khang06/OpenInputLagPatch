@@ -100,7 +100,7 @@ void check_vpatch() {
 // The game calls these functions a bunch of times to set the system timer to 1ms
 // It's not very effective because it only sets the timer for incredibly small periods of time
 // This ensures that the system timer is set to 1ms for the entirety of the process' lifetime
-MMRESULT WINAPI time_stub() {
+MMRESULT WINAPI time_stub(UINT uPeriod) {
     return MMSYSERR_NOERROR;
 }
 
