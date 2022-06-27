@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <stdio.h>
+#include <winternl.h>
 #include "patch_util.h"
 #include "games.h"
 #include "limiter.h"
@@ -9,6 +10,67 @@
 void create_console() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
+}
+
+// Register a DLL load callback to abort if vpatch gets loaded
+typedef struct _LDR_DLL_LOADED_NOTIFICATION_DATA
+{
+    ULONG Flags;                   // Reserved.
+    PCUNICODE_STRING FullDllName;  // The full path name of the DLL module.
+    PCUNICODE_STRING BaseDllName;  // The base file name of the DLL module.
+    PVOID DllBase;                 // A pointer to the base address for the DLL in memory.
+    ULONG SizeOfImage;             // The size of the DLL image, in bytes.
+} LDR_DLL_LOADED_NOTIFICATION_DATA, *PLDR_DLL_LOADED_NOTIFICATION_DATA;
+#define LDR_DLL_NOTIFICATION_REASON_LOADED 1
+
+// MessageBox is broken in dll_load_callback, so vpatch's entrypoint is redirected to this instead
+void vpatch_abort() {
+    MessageBox(
+        NULL,
+        L"vpatch and OpenInputLagPatch are incompatible.\nUninstall OpenInputLagPatch by deleting dinput8.dll or stop running the game via vpatch.exe.",
+        L"OpenInputLagPatch",
+        MB_ICONERROR
+    );
+    exit(1);
+}
+
+VOID CALLBACK dll_load_callback(ULONG NotificationReason, PLDR_DLL_LOADED_NOTIFICATION_DATA NotificationData, PVOID Context) {
+    // Only notify on DLL load
+    if (NotificationReason != LDR_DLL_NOTIFICATION_REASON_LOADED)
+        return;
+
+    // Check if the DLL's filename contains vpatch
+    if (wcsstr(NotificationData->BaseDllName->Buffer, L"vpatch") != nullptr) {
+        printf("vpatch detected: %S\n", NotificationData->FullDllName->Buffer);
+
+        // Patch vpatch's entrypoint to abort instantly
+        auto pe = (char*)NotificationData->DllBase;
+        auto nt_header = (PIMAGE_NT_HEADERS32)(pe + ((PIMAGE_DOS_HEADER)pe)->e_lfanew);
+        auto optional_header = (PIMAGE_OPTIONAL_HEADER32)(&nt_header->OptionalHeader);
+        patch_call(pe + optional_header->AddressOfEntryPoint, vpatch_abort);
+    }
+}
+
+// Typedef edited to remove LDR_DLL_UNLOADED_NOTIFICATION_DATA
+typedef VOID NTAPI LDR_DLL_NOTIFICATION_FUNCTION(_In_ ULONG NotificationReason,
+    _In_ PLDR_DLL_LOADED_NOTIFICATION_DATA NotificationData,
+    _In_opt_ PVOID Context);
+typedef LDR_DLL_NOTIFICATION_FUNCTION* PLDR_DLL_NOTIFICATION_FUNCTION;
+typedef NTSTATUS(NTAPI* LdrRegisterDllNotification_t)(
+    _In_ ULONG Flags, _In_ PLDR_DLL_NOTIFICATION_FUNCTION NotificationFunction,
+    _In_opt_ PVOID Context, _Out_ PVOID* Cookie);
+void register_dll_load_callback() {
+    // Get LdrRegisterDllNotification from ntdll.dll
+    auto ntdll = GetModuleHandleW(L"ntdll.dll");
+    if (!ntdll)
+        return;
+    auto LdrRegisterDllNotification = (LdrRegisterDllNotification_t)GetProcAddress(ntdll, "LdrRegisterDllNotification");
+    if (!LdrRegisterDllNotification)
+        return;
+
+    // Register the DLL load callback
+    void* cookie = nullptr;
+    LdrRegisterDllNotification(0, dll_load_callback, NULL, &cookie);
 }
 
 // IAT hook timeBeginPeriod and timeEndPeriod to stub them
@@ -52,6 +114,7 @@ void patcher_main() {
     //MessageBoxW(NULL, L"Waiting...", L"", 0);
 
     create_console();
+    register_dll_load_callback();
     install_patches();
 }
 
