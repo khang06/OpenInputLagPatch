@@ -8,7 +8,7 @@ Currently, only EoSD v1.02h and MoF v1.00a are supported. Porting support for ot
 1. Compile as x86/Release
 2. Rename the output to dinput8.dll
 3. Copy the DLL to your game directory
-4. (Touhou 9.5 and below) Install [d3d8to9](https://github.com/crosire/d3d8to9) **(The ENB converter will not work!)**
+4. *(Touhou 9.5 and below)* Install [d3d8to9](https://github.com/crosire/d3d8to9) **(The ENB converter will not work!)**
 4. Run the game as usual
 
 # Technical details
