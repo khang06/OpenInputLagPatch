@@ -9,6 +9,7 @@ enum class TouhouGame {
 	Custom = 0,
 	Th6 = 1,
 	Th10 = 2,
+	MaxValue, // Dummy value used for config validation
 };
 
 TouhouGame detect_game();

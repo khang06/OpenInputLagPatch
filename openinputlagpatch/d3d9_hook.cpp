@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <d3d9.h>
 #include "patch_util.h"
+#include "config.h"
 
 static IDirect3DDevice9Ex* d3d9ex_device = nullptr;
 
@@ -38,18 +39,17 @@ HRESULT __stdcall CreateVertexBuffer_hook(IDirect3DDevice9Ex* self, UINT Length,
 // Modifies presentation parameters to work properly with Direct3D9Ex
 void modify_presentation_parameters(D3DPRESENT_PARAMETERS* params) {
 	params->PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-	params->FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+	params->FullScreen_RefreshRateInHz = (!params->Windowed && Config::Force60Hz) ? 60 : D3DPRESENT_RATE_DEFAULT;
 	params->SwapEffect = D3DSWAPEFFECT_DISCARD;
 	params->BackBufferCount = 0;
 }
 
 // Gets the display mode for fullscreen
-// TODO: This should be configurable!
 void get_fullscreen_display_mode(D3DDISPLAYMODEEX* mode) {
 	mode->Size = sizeof(D3DDISPLAYMODEEX);
 	mode->Width = 640;
 	mode->Height = 480;
-	mode->RefreshRate = D3DPRESENT_RATE_DEFAULT;
+	mode->RefreshRate = Config::Force60Hz ? 60 : D3DPRESENT_RATE_DEFAULT;
 	mode->Format = D3DFMT_X8R8G8B8;
 	mode->ScanLineOrdering = D3DSCANLINEORDERING_PROGRESSIVE;
 }
@@ -121,6 +121,16 @@ HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE
 // Upgrades IDirect3D9 to IDirect3D9Ex
 IDirect3D9* WINAPI Direct3DCreate9_hook(UINT SDKVersion) {
 	printf("Direct3DCreate9 intercepted!\n");
+
+	if (!Config::D3D9Ex) {
+		MessageBox(
+			NULL,
+			L"Direct3DCreate9_hook was called despite D3D9Ex being disabled.\nThis is a bug. Please open an issue on Github.",
+			L"OpenInputLagPatch",
+			MB_ICONERROR
+		);
+		exit(1);
+	}
 
 	IDirect3D9Ex* d3d9ex = nullptr;
 	if (FAILED(Direct3DCreate9Ex(D3D_SDK_VERSION, &d3d9ex)) || d3d9ex == nullptr) {

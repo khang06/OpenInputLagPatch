@@ -6,6 +6,7 @@
 #include "games.h"
 #include "limiter.h"
 #include "d3d9_hook.h"
+#include "config.h"
 
 // Allocates a console for debugging purposes
 void create_console() {
@@ -123,7 +124,8 @@ void install_patches() {
 
     limiter_init();
     hook_winmm_time_period();
-    hook_d3d9();
+    if (Config::D3D9Ex)
+        hook_d3d9();
 
     switch (game) {
         case TouhouGame::Th6:
@@ -145,9 +147,11 @@ void install_patches() {
 
 // Main entrypoint
 void patcher_main() {
-    //MessageBoxW(NULL, L"Waiting...", L"", 0);
-
-    create_console();
+    Config::Load();
+    if (Config::DebugWait)
+        MessageBoxW(NULL, L"Waiting...\nIf you don't want to see this, set DebugWait to 0 in the config.", L"OpenInputLagPatch", 0);
+    if (Config::DebugConsole)
+        create_console();
     check_vpatch();
     install_patches();
 }

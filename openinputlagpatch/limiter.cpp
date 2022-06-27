@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include <stdio.h>
 #include "d3d9_hook.h"
+#include "config.h"
+#include "limiter.h"
 
 bool limiter_initialized = false;
 LARGE_INTEGER limiter_start;
@@ -16,9 +18,9 @@ DWORD queued_wait_amount = 0;
 void limiter_init() {
 	QueryPerformanceFrequency(&perf_freq);
 	QueryPerformanceCounter(&limiter_start);
-	wait_amount.QuadPart = (LONGLONG)((double)perf_freq.QuadPart / 60.0);
+	wait_amount.QuadPart = (LONGLONG)((double)perf_freq.QuadPart / (double)Config::GameFPS);
 	queued_wait_amount = wait_amount.LowPart;
-	blt_prepare_time.QuadPart = perf_freq.QuadPart / 1000 * 2; // 2 ms
+	blt_prepare_time.QuadPart = perf_freq.QuadPart / 1000 * (LONGLONG)Config::BltPrepareTime;
 	limiter_initialized = true;
 }
 

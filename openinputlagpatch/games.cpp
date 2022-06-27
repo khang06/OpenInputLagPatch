@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include "sha256.h"
+#include "config.h"
 #include "games.h"
 
 // SHA256 hashes of supported game executables
@@ -38,6 +39,11 @@ const char* game_to_string[] = {
 
 // Try to detect the current game
 TouhouGame detect_game() {
+	if (Config::GameOverride != TouhouGame::Unknown) {
+		printf("Game is being overridden to %s, things are probably about to break!\n", game_to_string[(size_t)Config::GameOverride]);
+		return Config::GameOverride;
+	}
+
 	// Get the path to the game's executable
 	wchar_t game_path[1024] = {};
 	if (!GetModuleFileName(NULL, game_path, 1024)) {
