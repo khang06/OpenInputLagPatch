@@ -150,6 +150,7 @@
     <ClCompile Include="d3d9_hook.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="limiter.cpp" />
+    <ClCompile Include="oilp_api.cpp" />
     <ClCompile Include="patch_util.cpp" />
     <ClCompile Include="touhou6.cpp" />
   </ItemGroup>
