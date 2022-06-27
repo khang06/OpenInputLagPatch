@@ -21,7 +21,7 @@ OpenInputLagPatch is configured via a file called `openinputlagpatch.ini` stored
 ; Default: 60
 GameFPS = 60
 
-; Amount of time in milliseconds before screen refresh to trying running the game logic
+; Amount of time in milliseconds before screen refresh to try running the game logic
 ; Lower is better, but it comes with a higher risk of the game not being able to run in time and causing more input lag
 ; Default: 4
 BltPrepareTime = 4
