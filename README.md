@@ -12,7 +12,7 @@ Currently, only EoSD v1.02h and MoF v1.00a are supported. Porting support for ot
 4. Run the game as usual
 
 # Configuration
-OpenInputLagPatch is configured via a file called `openinputlagpatch.ini`. Here's an example config:
+OpenInputLagPatch is configured via a file called `openinputlagpatch.ini` stored in the same directory as the game executable. The game will run perfectly fine without the config file, but there's always the option of manually creating one. Here's an example config file:
 ```
 [Option]
 
