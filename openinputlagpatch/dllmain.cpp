@@ -30,12 +30,21 @@ void hook_winmm_time_period() {
 
 // Actually patches everything
 void install_patches() {
+    auto game = detect_game();
+    if (game == TouhouGame::Unknown)
+        exit(1);
+    else if (game == TouhouGame::Custom)
+        return;
+
     limiter_init();
     hook_winmm_time_period();
     hook_d3d9();
 
-    // TODO: Other games
-    th6_install_patches();
+    switch (game) {
+        case TouhouGame::Th06:
+            th6_install_patches();
+            break;
+    }
 }
 
 // Main entrypoint

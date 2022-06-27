@@ -36,6 +36,12 @@
     <ClCompile Include="oilp_api.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sha256.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="games.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="patch_util.h">
@@ -60,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="d3d9_hook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sha256.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
