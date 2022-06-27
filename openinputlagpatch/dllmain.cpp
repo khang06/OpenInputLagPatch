@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <stdio.h>
 #include <winternl.h>
+#include <shlwapi.h>
 #include "patch_util.h"
 #include "games.h"
 #include "limiter.h"
@@ -27,7 +28,7 @@ typedef struct _LDR_DLL_LOADED_NOTIFICATION_DATA
 void vpatch_abort() {
     MessageBox(
         NULL,
-        L"vpatch and OpenInputLagPatch are incompatible.\nUninstall OpenInputLagPatch by deleting dinput8.dll or stop running the game via vpatch.exe.",
+        L"vpatch and OpenInputLagPatch are incompatible.\nStop running the game via vpatch.exe or uninstall OpenInputLagPatch by deleting dinput8.dll.",
         L"OpenInputLagPatch",
         MB_ICONERROR
     );
@@ -71,6 +72,28 @@ void register_dll_load_callback() {
     // Register the DLL load callback
     void* cookie = nullptr;
     LdrRegisterDllNotification(0, dll_load_callback, NULL, &cookie);
+}
+
+// Check if vpatch is loaded and register a DLL load callback to detect it being loaded later
+void check_vpatch() {
+    // On older Touhou games, vpatch remotely creates a thread that calls LoadLibraryA on itself
+    // Since the DLL isn't actually loaded by the time this executes, a callback is registered to detect it being loaded later
+    register_dll_load_callback();
+
+    // On modern Touhou games, vpatch itself loads dinput8.dll
+    // Get the executable's path
+    wchar_t exe_path[1024] = {};
+    if (!GetModuleFileName(NULL, exe_path, 1024))
+        return;
+
+    // Strip away the path to get the filename itself
+    wchar_t* filename = PathFindFileNameW(exe_path);
+
+    // Check if it contains vpatch
+    if (wcsstr(filename, L"vpatch") != nullptr) {
+        printf("vpatch detected: %S\n", exe_path);
+        vpatch_abort();
+    }
 }
 
 // IAT hook timeBeginPeriod and timeEndPeriod to stub them
@@ -125,7 +148,7 @@ void patcher_main() {
     //MessageBoxW(NULL, L"Waiting...", L"", 0);
 
     create_console();
-    register_dll_load_callback();
+    check_vpatch();
     install_patches();
 }
 
