@@ -3,7 +3,7 @@
 #include "config.h"
 
 UINT Config::GameFPS = 60;
-UINT Config::BltPrepareTime = 2;
+UINT Config::BltPrepareTime = 4;
 BOOL Config::D3D9Ex = TRUE;
 BOOL Config::Force60Hz = FALSE;
 BOOL Config::DebugConsole = FALSE;
