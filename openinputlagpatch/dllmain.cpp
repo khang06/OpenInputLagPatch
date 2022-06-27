@@ -103,9 +103,20 @@ void install_patches() {
     hook_d3d9();
 
     switch (game) {
-        case TouhouGame::Th06:
+        case TouhouGame::Th6:
             th6_install_patches();
             break;
+        case TouhouGame::Th10:
+            th10_install_patches();
+            break;
+        default:
+            MessageBoxW(
+                NULL,
+                L"The game was detected properly, but it didn't have a patch handler. This shouldn't happen under any circumstances.\nPlease report this issue on the project Github page.",
+                L"OpenInputLagPatch",
+                MB_ICONERROR
+            );
+            exit(1);
     }
 }
 

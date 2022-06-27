@@ -12,7 +12,7 @@ auto CreateTexture_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*, UINT, UINT, 
 HRESULT __stdcall CreateTexture_hook(IDirect3DDevice9Ex* self, UINT Width, UINT Height, UINT Levels, DWORD Usage, D3DFORMAT Format,
 	D3DPOOL Pool, IDirect3DTexture9** ppTexture, HANDLE* pSharedHandle)
 {
-	printf("CreateTexture intercepted!\n");
+	//printf("CreateTexture intercepted!\n");
 
 	if (Pool == D3DPOOL_MANAGED) {
 		Pool = D3DPOOL_DEFAULT;
@@ -119,7 +119,7 @@ HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE
 }
 
 // Upgrades IDirect3D9 to IDirect3D9Ex
-IDirect3D9* Direct3DCreate9_hook(UINT SDKVersion) {
+IDirect3D9* WINAPI Direct3DCreate9_hook(UINT SDKVersion) {
 	printf("Direct3DCreate9 intercepted!\n");
 
 	IDirect3D9Ex* d3d9ex = nullptr;

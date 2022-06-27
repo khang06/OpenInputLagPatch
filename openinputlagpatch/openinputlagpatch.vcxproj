@@ -154,6 +154,7 @@
     <ClCompile Include="oilp_api.cpp" />
     <ClCompile Include="patch_util.cpp" />
     <ClCompile Include="sha256.c" />
+    <ClCompile Include="touhou10.cpp" />
     <ClCompile Include="touhou6.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +166,7 @@
     <ClInclude Include="limiter.h" />
     <ClInclude Include="patch_util.h" />
     <ClInclude Include="sha256.h" />
+    <ClInclude Include="touhou10.h" />
     <ClInclude Include="touhou6.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
