@@ -119,7 +119,11 @@ int wmain() {
 	size_t sel = 0;
 	do {
 		printf("Pick your game: ");
-		sel = std::stod(cmd_inp());
+		try {
+			sel = std::stod(cmd_inp());
+		} catch (...) {
+			sel = games.size();
+		}
 	} while (sel >= games.size());
 	return run_game_and_inject(games[sel].path.c_str());
 }
