@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{1d39340c-cd95-4d8f-a2ba-22a6c9583f9c}</ProjectGuid>
+    <ProjectGuid>{3fae6602-fd22-4955-a562-373c8beac172}</ProjectGuid>
     <RootNamespace>openinputlagpatch</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -22,7 +22,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
   <PropertyGroup>
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -57,13 +57,15 @@
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>WIN32;OPENINPUTLAGPATCH_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)openinputlagpatch;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>shlwapi.lib;d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>openinputlagpatch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
   </ItemDefinitionGroup>
@@ -88,30 +90,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="config.cpp" />
-    <ClCompile Include="d3d9_hook.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="games.cpp" />
-    <ClCompile Include="limiter.cpp" />
-    <ClCompile Include="oilp_api.cpp" />
-    <ClCompile Include="patch_util.cpp" />
-    <ClCompile Include="sha256.c" />
-    <ClCompile Include="touhou10.cpp" />
-    <ClCompile Include="touhou6.cpp" />
+    <ClCompile Include="..\openinputlagpatch\sha256.c" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="config.h" />
-    <ClInclude Include="d3d8\d3d8.h" />
-    <ClInclude Include="d3d8\d3d8caps.h" />
-    <ClInclude Include="d3d8\d3d8types.h" />
-    <ClInclude Include="d3d9_hook.h" />
-    <ClInclude Include="games.h" />
-    <ClInclude Include="games_def.h" />
-    <ClInclude Include="limiter.h" />
-    <ClInclude Include="patch_util.h" />
-    <ClInclude Include="sha256.h" />
-    <ClInclude Include="touhou10.h" />
-    <ClInclude Include="touhou6.h" />
+    <ClInclude Include="..\openinputlagpatch\games.h" />
+    <ClInclude Include="..\openinputlagpatch\games_def.h" />
+    <ClInclude Include="..\openinputlagpatch\sha256.h" />
+    <ClInclude Include="..\openinputlagpatch\util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

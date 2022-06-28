@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <vector>
+#include <string>
 
 // Games are added as support is implemented
 // Not ordered in chronological order of when they were released
