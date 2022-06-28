@@ -17,5 +17,6 @@ public:
 	static BOOL Force60Hz;
 	static BOOL DebugConsole;
 	static BOOL DebugWait;
+	static BOOL FixInputGlitching;
 	static TouhouGame GameOverride;
 };

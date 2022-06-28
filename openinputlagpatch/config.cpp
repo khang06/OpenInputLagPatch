@@ -10,6 +10,7 @@ BOOL Config::D3D9Ex = TRUE;
 BOOL Config::Force60Hz = FALSE;
 BOOL Config::DebugConsole = FALSE;
 BOOL Config::DebugWait = FALSE;
+BOOL Config::FixInputGlitching = FALSE;
 TouhouGame Config::GameOverride = TouhouGame::Unknown;
 
 bool Config::Load() {
@@ -29,6 +30,7 @@ bool Config::Load() {
 	Config::Force60Hz = GetPrivateProfileInt(L"Option", L"Force60Hz", Config::Force60Hz, config_path);
 	Config::DebugConsole = GetPrivateProfileInt(L"Option", L"DebugConsole", Config::DebugConsole, config_path);
 	Config::DebugWait = GetPrivateProfileInt(L"Option", L"DebugWait", Config::DebugWait, config_path);
+	Config::FixInputGlitching = GetPrivateProfileInt(L"Option", L"FixInputGlitching", Config::FixInputGlitching, config_path);
 	Config::GameOverride = (TouhouGame)GetPrivateProfileInt(L"Option", L"GameOverride", (int)Config::GameOverride, config_path);
 
 	// Validate options

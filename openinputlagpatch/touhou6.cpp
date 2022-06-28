@@ -4,6 +4,7 @@
 #include "patch_util.h"
 #include "limiter.h"
 #include "touhou6.h"
+#include "config.h"
 
 CEngine* CEngine::Instance = (CEngine*)0x006C6D18;
 CWindowManager* CWindowManager::Instance = (CWindowManager*)0x006C6BD4;
@@ -75,6 +76,11 @@ void th6_install_patches() {
         // Hook window updating
         // Avoid eating up CPU time while minimized
         patch_call((void*)0x004204FF, window_update_hook);
+    }
+    if (Config::FixInputGlitching) {
+        // Fix input glitching
+        BYTE patch[] = { 0x00, 0x00, 0x00, 0x00, 0x74 };
+        patch_bytes((void*)0x0041DC58, patch, sizeof(patch));
     }
 }
 

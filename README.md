@@ -74,6 +74,9 @@ DebugConsole = 0
 ; Default: 0
 DebugWait = 0
 
+; Fixes the input glitching issues that can occur in EoSD and PCB if you deselect the window while the game is loading for example
+FixInputGlitching = 0
+
 ; Overrides game detection to a specific game
 ; See games.h for possible values
 ; CHANGING THIS WILL PROBABLY BREAK EVERYTHING. Only use this if you are 100% sure that the game's offsets are exactly the same!
