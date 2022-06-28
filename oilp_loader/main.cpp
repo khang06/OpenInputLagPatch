@@ -102,7 +102,7 @@ int wmain() {
 	}
 	do {
 		TouhouGame game = detect_game(find.cFileName);
-		if (game != TouhouGame::Unknown) {
+		if (game != TouhouGame::Unknown && game != TouhouGame::Custom) {
 			games.push_back({ game, find.cFileName });
 		}
 	} while (FindNextFileW(hFind, &find));
