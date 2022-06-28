@@ -1,6 +1,5 @@
 #include <Windows.h>
 #include <conio.h>
-#include <shlwapi.h>
 
 #include "sha256.h"
 #include "games.h"
