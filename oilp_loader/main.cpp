@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <conio.h>
+#include <shlwapi.h>
 
 #include "sha256.h"
 #include "games.h"
@@ -113,7 +114,7 @@ int wmain() {
 		return 1;
 	}
 	for (size_t i = 0; i < games.size(); i++) {
-		printf("[%d]: %s\n", i, game_to_string[(size_t)games[i].game]);
+		wprintf(L"[%d]: %S (%s)\n", i, game_to_string[(size_t)games[i].game], games[i].path.c_str());
 	}
 	
 	size_t sel = 0;
