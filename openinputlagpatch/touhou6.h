@@ -118,3 +118,4 @@ public:
 	int field_18;
 	int field_1C;
 };
+auto CWindowManager__Update = (int(__thiscall*)(CWindowManager*))0x004206E0;

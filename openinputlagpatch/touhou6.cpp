@@ -9,6 +9,10 @@ CEngine* CEngine::Instance = (CEngine*)0x006C6D18;
 CWindowManager* CWindowManager::Instance = (CWindowManager*)0x006C6BD4;
 CChainManager* CChainManager::Instance = (CChainManager*)0x0069D918;
 
+// HACK: This should actually be taking in a parameter and using that in place of CChainManager::Instance
+// However, if I did that, the edi register gets corrupted by CChainManager::UpdateCalcChain
+// ...and that causes a crash because "this" is saved in that register in the generated assembly for this function
+// Doing it this way seems to work fine. More investigation required...
 int __fastcall update_calc_chain_hook() {
 	auto engine = CEngine::Instance;
     limiter_tick();
@@ -42,6 +46,14 @@ int __fastcall update_calc_chain_hook() {
     return ret;
 }
 
+int __fastcall window_update_hook() {
+    if (!CWindowManager::Instance->activated) {
+        Sleep(16);
+        return 0;
+    }
+    return CWindowManager__Update(CWindowManager::Instance);
+}
+
 void th6_install_patches() {
 	{
 		// Skip the original frame limiter
@@ -58,4 +70,9 @@ void th6_install_patches() {
 		// Shaves off 1 frame of input lag by calling calc chains BEFORE drawing
 		patch_call((void*)0x00420853, update_calc_chain_hook);
 	}
+    {
+        // Hook window updating
+        // Avoid eating up CPU time while minimized
+        patch_call((void*)0x004204FF, window_update_hook);
+    }
 }
