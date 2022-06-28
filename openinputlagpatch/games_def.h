@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <vector>
-#include "games.h"
+
 // SHA256 hashes of supported game executables
 // Sourced from https://github.com/thpatch/thcrap-tsa/blob/master/base_tsa/versions.js
 std::vector<std::vector<const char*>> game_hashes{
@@ -38,6 +38,7 @@ const char* game_to_string[] = {
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
 #ifndef OILP_LOADER
+#include "games.h"
 ReplayCallback game_to_replay_callback[] = {
 	nullptr,
 	th6_replay_callback,
