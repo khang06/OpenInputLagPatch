@@ -13,7 +13,22 @@ enum class TouhouGame {
 	MaxValue, // Dummy value used for config validation
 };
 
+enum class FPSTarget {
+	Game,
+	ReplaySkip,
+	ReplaySlow,
+};
+
+// Per-game callback to check if we're currently in a replay and if the player wants to change speeds
+typedef FPSTarget(*ReplayCallback)();
+
 TouhouGame detect_game();
 
+#ifndef OILP_LOADER
+ReplayCallback get_replay_callback(TouhouGame game);
+#endif
+
 void th6_install_patches();
+FPSTarget th6_replay_callback();
 void th10_install_patches();
+FPSTarget th10_replay_callback();

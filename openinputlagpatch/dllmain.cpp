@@ -122,7 +122,7 @@ void install_patches() {
     else if (game == TouhouGame::Custom)
         return;
 
-    limiter_init();
+    Limiter::Initialize(get_replay_callback(game));
     hook_winmm_time_period();
     if (Config::D3D9Ex)
         hook_d3d9();

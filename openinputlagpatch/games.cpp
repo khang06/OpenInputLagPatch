@@ -1,6 +1,7 @@
 ﻿// Game detection
 
 #include <Windows.h>
+#include <vector>
 #include "sha256.h"
 #include "config.h"
 #include "games.h"
@@ -67,4 +68,10 @@ TouhouGame detect_game() {
 	// Couldn't find it
 	MessageBox(NULL, L"Failed to detect the game. Please make sure that the game you're trying to play is supported.\nIf you believe this is a mistake, please open an issue on Github.", L"OpenInputLagPatch", MB_ICONERROR);
 	return TouhouGame::Unknown;
+}
+
+// Get the replay callback for a specified game
+// If replay detection is unimplemented, this will return null
+ReplayCallback get_replay_callback(TouhouGame game) {
+	return game_to_replay_callback[(size_t)game];
 }

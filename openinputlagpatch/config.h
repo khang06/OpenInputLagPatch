@@ -10,6 +10,8 @@ public:
 	static bool Load();
 
 	static UINT GameFPS;
+	static UINT ReplaySkipFPS;
+	static UINT ReplaySlowFPS;
 	static UINT BltPrepareTime;
 	static BOOL D3D9Ex;
 	static BOOL Force60Hz;

@@ -8,6 +8,7 @@
 CEngine* CEngine::Instance = (CEngine*)0x006C6D18;
 CWindowManager* CWindowManager::Instance = (CWindowManager*)0x006C6BD4;
 CChainManager* CChainManager::Instance = (CChainManager*)0x0069D918;
+CGame* CGame::Instance = (CGame*)0x0069BCA0;
 
 // HACK: This should actually be taking in a parameter and using that in place of CChainManager::Instance
 // However, if I did that, the edi register gets corrupted by CChainManager::UpdateCalcChain
@@ -15,7 +16,7 @@ CChainManager* CChainManager::Instance = (CChainManager*)0x0069D918;
 // Doing it this way seems to work fine. More investigation required...
 int __fastcall update_calc_chain_hook() {
 	auto engine = CEngine::Instance;
-    limiter_tick();
+    Limiter::Tick();
 
     engine->viewport.X = 0;
     engine->viewport.Y = 0;
@@ -75,4 +76,15 @@ void th6_install_patches() {
         // Avoid eating up CPU time while minimized
         patch_call((void*)0x004204FF, window_update_hook);
     }
+}
+
+FPSTarget th6_replay_callback() {
+    if (CEngine::Instance->state == 2 && CGame::Instance->is_replay) {
+        auto input = get_input();
+        if (input & InputState::Focus)
+            return FPSTarget::ReplaySlow;
+        else if (input & InputState::Skip)
+            return FPSTarget::ReplaySkip;
+    }
+    return FPSTarget::Game;
 }

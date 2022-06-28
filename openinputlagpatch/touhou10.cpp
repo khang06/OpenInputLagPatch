@@ -6,8 +6,10 @@
 #include "config.h"
 #include "touhou10.h"
 
+CReplayManager** CReplayManager::InstancePtr = (CReplayManager**)0x00477838;
+
 int __stdcall update_window_hook(void* self) {
-	limiter_tick();
+	Limiter::Tick();
 	return CWindowManager__Update(self);
 }
 
@@ -32,4 +34,16 @@ void th10_install_patches() {
 		// This should force our Direct3DCreate9 hook to be loaded no matter what
 		patch_call((void*)0x00438BC3, Direct3DCreate9_hook);
 	}
+}
+
+FPSTarget th10_replay_callback() {
+	if (*CReplayManager::InstancePtr && (*CReplayManager::InstancePtr)->mode == 1) {
+		// TODO: Reverse engineer this struct instead of being lazy
+		auto input = *(DWORD*)0x00474E30;
+		if (input & InputState::Focus)
+			return FPSTarget::ReplaySlow;
+		else if (input & InputState::Skip)
+			return FPSTarget::ReplaySkip;
+	}
+	return FPSTarget::Game;
 }

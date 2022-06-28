@@ -118,4 +118,73 @@ public:
 	int field_18;
 	int field_1C;
 };
+static_assert(sizeof(CWindowManager) == 0x20, "Struct is the wrong size");
 auto CWindowManager__Update = (int(__thiscall*)(CWindowManager*))0x004206E0;
+
+class CGame
+{
+public:
+	static CGame* Instance;
+
+	unsigned int visible_score;
+	int score;
+	int visible_score_increment;
+	int high_score;
+	int difficulty;
+	BYTE gap14[8];
+	int is_replay;
+	BYTE gap20[4];
+	int bombs_used;
+	BYTE gap28[4];
+	char field_2C;
+	BYTE gap2D[4111];
+	int field_103C;
+	BYTE gap1040[2000];
+	__int16 power;
+	__declspec(align(8)) char field_1818;
+	char field_1819;
+	char lives;
+	char bombs;
+	char life_bonus_idx;
+	unsigned __int8 is_marisa;
+	unsigned __int8 weapon;
+	char pause_state;
+	char game_over;
+	char field_1821;
+	char field_1822;
+	char field_1823;
+	char title_demo;
+	int title_demo_timer;
+	int field_182C;
+	BYTE gap1830[508];
+	__int16 field_1A2C;
+	int field_1A30;
+	int stage;
+	BYTE gap1A38[4];
+	float field_1A3C;
+	float field_1A40;
+	float field_1A44;
+	float field_1A48;
+	BYTE gap1A4C[36];
+	int rank;
+	int max_rank;
+	int min_rank;
+	int subrank;
+};
+static_assert(sizeof(CGame) == 0x1A80, "Struct is the wrong size");
+
+enum InputState {
+	Shoot = 1,
+	Bomb = 2,
+	Focus = 4,
+	Pause = 8,
+	Up = 0x10,
+	Down = 0x20,
+	Left = 0x40,
+	Right = 0x80,
+	Skip = 0x100,
+	Q = 0x200,
+	S = 0x400,
+	Enter = 0x800
+};
+auto get_input = ((__int16(__cdecl*)())0x0041D820);
