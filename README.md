@@ -6,10 +6,9 @@ Currently, only EoSD v1.02h and MoF v1.00a are supported. Porting support for ot
 
 # Usage
 1. Compile as x86/Release
-2. Rename the output to dinput8.dll
-3. Copy the DLL to your game directory
-4. *(Touhou 9.5 and below)* Install [d3d8to9](https://github.com/crosire/d3d8to9) **(The ENB converter will not work!)**
-4. Run the game as usual
+2. Copy openinputlagpatch.dll and oilp_loader.exe to your game directory
+3. *(Touhou 9.5 and below)* Install [d3d8to9](https://github.com/crosire/d3d8to9) **(The ENB converter will not work!)**
+4. Run oilp_loader.exe
 
 # Configuration
 OpenInputLagPatch is configured via a file called `openinputlagpatch.ini` stored in the same directory as the game executable. The game will run perfectly fine without the config file, but there's always the option of manually creating one. Here's an example config file:
