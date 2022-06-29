@@ -10,6 +10,11 @@ std::vector<std::vector<const char*>> game_hashes{
 		"27ee5bb9028c86789d66b8689b74e6cbf523dfaf28b28e47766357f662a0b9b0", // EoSD v1.02h English patch
 		"814373224e8dba9b43886bd0663f44148c314a4cea9af63dce37bf2b7f65590d", // MoF v1.00a original
 		"01557b314306c2af5f03cacb13217c1b158c36f4ce61e9d978d036b4c3dda62e", // MoF v1.00a English patch
+		"ae36be0c4ff88b5100c65ff63819442e34d60df818da5cc05fdbb61e77ae9fb7", // PCB v1.00b original
+		"ea4e79061eca4904a5ec0f2803a93bf0853d559d70a3b7bb84a041c0f29350ab", // PCB v1.00b Chinese patch
+		"aff0f325a34559f9f8df5778bdf30f2f538a039689323f670410f6d6357a2845", // IN v1.00d original
+		"ca38af8553e3912df4a0badf81760538bbd07785380a02823c849454d776fe84", // IN v1.00d English patch
+		"e5a394da95e69678dca7f4d44ce5bf80101f48d1903c9e95ebcbdf3b5199e6f4", // IN v1.00d Chinese patch
 	},
 	// Touhou 6: Embodiment of Scarlet Devil v1.02h
 	{
@@ -31,6 +36,11 @@ std::vector<std::vector<const char*>> game_hashes{
 	{
 		"35467eaf8dc7fc85f024f16fb2037255f151cefda33cf4867bc9122aaa2e80ca", // Original
 		"275cfdcab6ad463be4d3d646ddc21811dc65cb1c7e88c7b18bb8a89f25316655", // English patch
+	},
+	// Touhou 8: Imperishable Night v1.00d
+	{
+		"330fbdbf58a710829d65277b4f312cfbb38d5448b3df523e79350b879213d924", // Original
+		"467085c3c85ceed4b6f5be410e14cd56f1af0b5afa4e0c752270b56ecbc470cf", // English patch
 	}
 };
 
@@ -39,8 +49,8 @@ const char* game_to_string[] = {
 	"Touhou 6 v1.02",
 	"Touhou 10 v1.00a",
 	"Touhou 7 v1.00b",
+	"Touhou 8 v1.00d",
 };
-
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
 #ifndef OILP_LOADER
@@ -50,6 +60,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th6_replay_callback,
 	th10_replay_callback,
 	th7_replay_callback,
+	th8_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif

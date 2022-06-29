@@ -161,6 +161,9 @@ void install_patches() {
         case TouhouGame::Th7:
             th7_install_patches();
             break;
+        case TouhouGame::Th8:
+            th8_install_patches();
+            break;
         default:
             panic_msgbox(L"The game was detected properly, but it didn't have a patch handler.");
     }

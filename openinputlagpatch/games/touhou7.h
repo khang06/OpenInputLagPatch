@@ -104,6 +104,8 @@ namespace Touhou7 {
 	auto CTextureManager__Unk44F580 = (void(__thiscall*)(CTextureManager*))0x0044F580;
 	auto CTextureManager__Flush = (void(__thiscall*)(CTextureManager*))0x0044F5C0;
 
+	// TODO: Copy-pasted from my Touhou 6 RE work
+	// This is probably completely wrong
 	enum InputState {
 		Shoot = 1,
 		Bomb = 2,

@@ -10,7 +10,7 @@ using namespace Touhou10;
 
 CReplayManager** CReplayManager::InstancePtr = (CReplayManager**)0x00477838;
 
-int __stdcall update_window_hook(void* self) {
+int __stdcall th10_window_update_hook(void* self) {
 	Limiter::Tick();
 	return CWindowManager__Update(self);
 }
@@ -28,7 +28,7 @@ void th10_install_patches() {
 	}
 	{
 		// Hook window update
-		patch_call((void*)0x00438D31, update_window_hook);
+		patch_call((void*)0x00438D31, th10_window_update_hook);
 	}
 	if (Config::D3D9Ex) {
 		// Redirect Direct3DCreate9 call

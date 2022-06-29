@@ -14,7 +14,7 @@ Very few games are supported for now, but support for more games is actively bei
 |---------------------------------|-----------|----------------------|
 | Embodiment of Scarlet Devil     |✅|✅|
 | Perfect Cherry Blossom          |✅|✅|
-| Imperishable Night              |❌|❔|
+| Imperishable Night              |✅|✅|
 | Phantasmagoria of Flower View   |❌|❔|
 | Shoot the Bullet                |❌|❔|
 | Mountain of Faith               |✅|✅|
