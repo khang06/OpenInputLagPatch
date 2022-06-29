@@ -62,7 +62,7 @@ UINT get_target_refresh_rate() {
 				// Pick the highest multiple of 60 refresh rate at 640x480
 				for (UINT i = 0; i < count; i++) {
 					if (modes[i].Width == 640 && modes[i].Height == 480 && (modes[i].RefreshRate == 59 || modes[i].RefreshRate % 60 == 0))
-						max_refresh_rate = modes[i].RefreshRate;
+						max_refresh_rate = modes[i].RefreshRate == 59 ? 60 : modes[i].RefreshRate;
 				}
 				if (max_refresh_rate == 0)
 					panic_msgbox(L"Failed to find a suitable display mode");
