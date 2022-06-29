@@ -151,22 +151,10 @@ void install_patches() {
     if (Config::D3D9Ex)
         hook_d3d9();
 
-    switch (game) {
-        case TouhouGame::Th6:
-            th6_install_patches();
-            break;
-        case TouhouGame::Th10:
-            th10_install_patches();
-            break;
-        case TouhouGame::Th7:
-            th7_install_patches();
-            break;
-        case TouhouGame::Th8:
-            th8_install_patches();
-            break;
-        default:
-            panic_msgbox(L"The game was detected properly, but it didn't have a patch handler.");
-    }
+    auto patch_function = get_patch_function(game);
+    if (!patch_function)
+        panic_msgbox(L"The game was detected, but the per-game patch function couldn't be found.");
+    patch_function();
 }
 
 // Main entrypoint

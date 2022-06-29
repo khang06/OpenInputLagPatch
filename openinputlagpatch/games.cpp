@@ -45,6 +45,11 @@ TouhouGame detect_game() {
 	return TouhouGame::Unknown;
 }
 
+// Get the per-game patch function for a specified game
+GamePatchFunction get_patch_function(TouhouGame game) {
+	return game_to_patch_function[(size_t)game];
+}
+
 // Get the replay callback for a specified game
 // If replay detection is unimplemented, this will return null
 ReplayCallback get_replay_callback(TouhouGame game) {

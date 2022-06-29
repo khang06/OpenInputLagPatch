@@ -21,12 +21,16 @@ enum class FPSTarget {
 	ReplaySlow,
 };
 
+// Function type for per-game patch functions
+typedef void(*GamePatchFunction)();
+
 // Per-game callback to check if we're currently in a replay and if the player wants to change speeds
 typedef FPSTarget(*ReplayCallback)();
 
 TouhouGame detect_game();
 
 #ifndef OILP_LOADER
+GamePatchFunction get_patch_function(TouhouGame game);
 ReplayCallback get_replay_callback(TouhouGame game);
 #endif
 

@@ -55,6 +55,15 @@ static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame
 
 #ifndef OILP_LOADER
 #include "games.h"
+GamePatchFunction game_to_patch_function[] = {
+	nullptr,
+	th6_install_patches,
+	th10_install_patches,
+	th7_install_patches,
+	th8_install_patches,
+};
+static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
+
 ReplayCallback game_to_replay_callback[] = {
 	nullptr,
 	th6_replay_callback,
