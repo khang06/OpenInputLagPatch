@@ -21,13 +21,7 @@ int __fastcall th6_update_calc_chain_hook() {
 	auto engine = CEngine::Instance;
     Limiter::Tick();
 
-    engine->viewport.X = 0;
-    engine->viewport.Y = 0;
-    engine->viewport.Width = 640;
-    engine->viewport.Height = 480;
-    engine->d3d8_device->SetViewport(&engine->viewport);
     auto ret = CChainManager__UpdateCalcChain(CChainManager::Instance);
-
     if (ret != 0 && ret != -1 && engine->config.frameskip <= (int)CWindowManager::Instance->frames_skipped) {
         if ((engine->config.engine_flags >> 4) & 1 | (engine->config.engine_flags >> 3) & 1) {
             D3DVIEWPORT8 viewport;

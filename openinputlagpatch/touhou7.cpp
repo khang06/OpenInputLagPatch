@@ -18,16 +18,8 @@ int __fastcall th7_update_calc_chain_hook() {
 	auto engine = CEngine::Instance;
 	Limiter::Tick();
 
-    //CTextureManager__Flush(*CTextureManager::InstancePtr); // This call isn't needed
-    engine->viewport.X = 0;
-    engine->viewport.Y = 0;
-    engine->viewport.Width = 640;
-    engine->viewport.Height = 480;
-    engine->d3d8_device->SetViewport(&engine->viewport);
     auto ret = CChainManager__UpdateCalcChain(CChainManager::Instance);
-
-    if (ret != 0 && ret != -1 && engine->config.frameskip <= (char)CWindowManager::Instance->frames_skipped)
-    {
+    if (ret != 0 && ret != -1 && engine->config.frameskip <= (char)CWindowManager::Instance->frames_skipped) {
         engine->d3d8_device->BeginScene();
         CTextureManager__Unk44F580(*CTextureManager::InstancePtr);
         engine->field_2BC = 255;
