@@ -4,37 +4,14 @@
 #include "sha256.h"
 #include "games.h"
 #include "games_def.h"
+#include "common.h"
 #include "util.h"
 
-TouhouGame detect_game(const wchar_t* game_path) {
-	FILE* game_file = _wfopen(game_path, L"rb");
-	if (!game_file) {
-		return TouhouGame::Unknown;
-	}
-
-	// Read it into memory
-	fseek(game_file, 0, SEEK_END);
-	int game_size = ftell(game_file);
-	fseek(game_file, 0, SEEK_SET);
-	BYTE* game = new BYTE[game_size];
-	if (fread(game, 1, game_size, game_file) != game_size) {
-		return TouhouGame::Unknown;
-	}
-	fclose(game_file);
-
-	// Hash it
-	SHA256_CTX ctx = {};
-	BYTE hash[SHA256_BLOCK_SIZE] = {};
-	sha256_init(&ctx);
-	sha256_update(&ctx, game, game_size);
-	sha256_final(&ctx, hash);
-	delete[] game;
-
-	// Convert the hash to a string
+TouhouGame detect_game(wchar_t* game_path) {
+	// Hash the game
 	char hash_str[SHA256_BLOCK_SIZE * 2 + 1] = {};
-	for (int i = 0; i < SHA256_BLOCK_SIZE; i++) {
-		hash_str[i * 2] = "0123456789abcdef"[hash[i] >> 4];
-		hash_str[i * 2 + 1] = "0123456789abcdef"[hash[i] & 0xF];
+	if (!sha256_file(game_path, hash_str)) {
+		return TouhouGame::Unknown;
 	}
 
 	// Check if the game matches any known hashes

@@ -7,6 +7,8 @@
 #include "limiter.h"
 #include "d3d9_hook.h"
 #include "config.h"
+#include "sha256.h"
+#include "common.h"
 
 // Allocates a console for debugging purposes
 void create_console() {
@@ -97,6 +99,34 @@ void check_vpatch() {
     }
 }
 
+// Check if the ENBSeries DX8 to DX9 Convertor [sic] is installed and complain to the user if it is
+// TODO: This should also check if the vanilla d3d8.dll is being used, but we can't just hash that
+// Maybe we should try checking the publisher information?
+void check_enb_dx8() {
+    // Get the dll's path
+    wchar_t config_path[1024] = {};
+    if (!GetModuleFileNameW(NULL, config_path, MAX_PATH))
+        return;
+    PathRemoveFileSpecW(config_path);
+    PathAppendW(config_path, L"\\d3d8.dll");
+
+    // Hash it
+    char hash_str[SHA256_BLOCK_SIZE * 2 + 1] = {};
+    if (!sha256_file(config_path, hash_str))
+        return;
+
+    // Check if the DLL is the wrong one
+    // This hash is for v0.036
+    if (!strcmp(hash_str, "1f0471c8fa53b035aa27d6d6505275e2ee0db55b6538b4e31fd79e54ce065759")) {
+        MessageBox(
+            NULL,
+            L"ENBSeries DX8 to DX9 Convertor detected.\nThe game will run fine, but D3D9Ex features will be unavailable and you'll have worse input lag.\nPlease install d3d8to9 for best results.",
+            L"OpenInputLagPatch",
+            MB_ICONWARNING
+        );
+    }
+}
+
 // IAT hook timeBeginPeriod and timeEndPeriod to stub them
 // The game calls these functions a bunch of times to set the system timer to 1ms
 // It's not very effective because it only sets the timer for incredibly small periods of time
@@ -156,6 +186,8 @@ void patcher_main() {
     if (Config::DebugConsole)
         create_console();
     check_vpatch();
+    if (Config::D3D9Ex)
+        check_enb_dx8();
     install_patches();
 }
 

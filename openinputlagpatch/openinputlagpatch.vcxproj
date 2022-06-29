@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="common.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="d3d9_hook.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -101,6 +102,7 @@
     <ClCompile Include="touhou7.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="d3d8\d3d8.h" />
     <ClInclude Include="d3d8\d3d8caps.h" />

@@ -89,10 +89,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\openinputlagpatch\common.cpp" />
     <ClCompile Include="..\openinputlagpatch\sha256.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\openinputlagpatch\common.h" />
     <ClInclude Include="..\openinputlagpatch\games.h" />
     <ClInclude Include="..\openinputlagpatch\games_def.h" />
     <ClInclude Include="..\openinputlagpatch\sha256.h" />

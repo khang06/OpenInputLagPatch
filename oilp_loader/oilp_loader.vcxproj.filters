@@ -16,6 +16,9 @@
     <ClCompile Include="..\openinputlagpatch\sha256.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\openinputlagpatch\common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\openinputlagpatch\games.h">
@@ -28,6 +31,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\openinputlagpatch\util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\openinputlagpatch\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
