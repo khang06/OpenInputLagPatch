@@ -7,7 +7,7 @@ UINT Config::ReplaySkipFPS = 240;
 UINT Config::ReplaySlowFPS = 30;
 UINT Config::BltPrepareTime = 4;
 BOOL Config::D3D9Ex = TRUE;
-BOOL Config::Force60Hz = FALSE;
+TargetRefreshRate Config::FullscreenRefreshRate = TargetRefreshRate::MultipleOfSixty;
 BOOL Config::DebugConsole = FALSE;
 BOOL Config::DebugWait = FALSE;
 BOOL Config::FixInputGlitching = FALSE;
@@ -27,7 +27,7 @@ bool Config::Load() {
 	Config::ReplaySlowFPS = GetPrivateProfileInt(L"Option", L"ReplaySlowFPS", Config::ReplaySlowFPS, config_path);
 	Config::BltPrepareTime = GetPrivateProfileInt(L"Option", L"BltPrepareTime", Config::BltPrepareTime, config_path);
 	Config::D3D9Ex = GetPrivateProfileInt(L"Option", L"D3D9Ex", Config::D3D9Ex, config_path);
-	Config::Force60Hz = GetPrivateProfileInt(L"Option", L"Force60Hz", Config::Force60Hz, config_path);
+	Config::FullscreenRefreshRate = (TargetRefreshRate)GetPrivateProfileInt(L"Option", L"FullscreenRefreshRate", Config::FullscreenRefreshRate, config_path);
 	Config::DebugConsole = GetPrivateProfileInt(L"Option", L"DebugConsole", Config::DebugConsole, config_path);
 	Config::DebugWait = GetPrivateProfileInt(L"Option", L"DebugWait", Config::DebugWait, config_path);
 	Config::FixInputGlitching = GetPrivateProfileInt(L"Option", L"FixInputGlitching", Config::FixInputGlitching, config_path);
@@ -41,6 +41,8 @@ bool Config::Load() {
 	if (Config::ReplaySlowFPS < 0)
 		Config::ReplaySlowFPS = 30;
 	Config::BltPrepareTime = max(0, min(Config::BltPrepareTime, 16));
+	if ((int)Config::FullscreenRefreshRate > (int)TargetRefreshRate::MultipleOfSixty)
+		Config::FullscreenRefreshRate = TargetRefreshRate::MultipleOfSixty;
 	if ((int)Config::GameOverride < (int)TouhouGame::Unknown || (int)Config::GameOverride >= (int)TouhouGame::MaxValue)
 		Config::GameOverride = TouhouGame::Unknown;
 

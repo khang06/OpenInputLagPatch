@@ -4,8 +4,10 @@
 #include <stdio.h>
 #include <d3d9.h>
 #include "patch_util.h"
+#include "common.h"
 #include "config.h"
 
+static IDirect3D9Ex* d3d9ex = nullptr;
 static IDirect3DDevice9Ex* d3d9ex_device = nullptr;
 
 // Replaces D3DPOOL_MANAGED with D3DPOOL_DEFAULT because it's deprecated on D3D9Ex
@@ -36,10 +38,49 @@ HRESULT __stdcall CreateVertexBuffer_hook(IDirect3DDevice9Ex* self, UINT Length,
 	return CreateVertexBuffer_orig(self, Length, Usage, FVF, Pool, ppVertexBuffer, pSharedHandle);
 }
 
+// Gets the target fullscreen refresh rate
+// TODO: This might not be so great on multi-monitor setups
+UINT max_refresh_rate = 0;
+UINT get_target_refresh_rate() {
+	switch (Config::FullscreenRefreshRate) {
+		case TargetRefreshRate::Max:
+			return D3DPRESENT_RATE_DEFAULT;
+		case TargetRefreshRate::Sixty:
+			return 60;
+		case TargetRefreshRate::MultipleOfSixty: {
+			if (max_refresh_rate == 0) {
+				// Enumerate all supported resolutions and refresh rates
+				// TODO: Probably shouldn't always use D3DADAPTER_DEFAULT, but the games probably do that too
+				auto count = d3d9ex->GetAdapterModeCount(D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8);
+				D3DDISPLAYMODE* modes = new D3DDISPLAYMODE[count];
+				printf("Supported display modes:\n");
+				for (UINT i = 0; i < count; i++) {
+					d3d9ex->EnumAdapterModes(D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8, i, &modes[i]);
+					printf("%d x %d @ %dhz\n", modes[i].Width, modes[i].Height, modes[i].RefreshRate);
+				}
+
+				// Pick the highest multiple of 60 refresh rate at 640x480
+				for (UINT i = 0; i < count; i++) {
+					if (modes[i].Width == 640 && modes[i].Height == 480 && (modes[i].RefreshRate == 59 || modes[i].RefreshRate % 60 == 0))
+						max_refresh_rate = modes[i].RefreshRate;
+				}
+				if (max_refresh_rate == 0)
+					panic_msgbox(L"Failed to find a suitable display mode");
+
+				printf("Picked %dhz\n", max_refresh_rate);
+				delete[] modes;
+			}
+			return max_refresh_rate;
+		}
+		default:
+			panic_msgbox(L"Invalid target refresh rate %d", Config::FullscreenRefreshRate);
+	}
+}
+
 // Modifies presentation parameters to work properly with Direct3D9Ex
 void modify_presentation_parameters(D3DPRESENT_PARAMETERS* params) {
 	params->PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-	params->FullScreen_RefreshRateInHz = (!params->Windowed && Config::Force60Hz) ? 60 : D3DPRESENT_RATE_DEFAULT;
+	params->FullScreen_RefreshRateInHz = params->Windowed ? D3DPRESENT_RATE_DEFAULT : get_target_refresh_rate();
 	params->SwapEffect = D3DSWAPEFFECT_DISCARD;
 	params->BackBufferCount = 0;
 }
@@ -49,7 +90,7 @@ void get_fullscreen_display_mode(D3DDISPLAYMODEEX* mode) {
 	mode->Size = sizeof(D3DDISPLAYMODEEX);
 	mode->Width = 640;
 	mode->Height = 480;
-	mode->RefreshRate = Config::Force60Hz ? 60 : D3DPRESENT_RATE_DEFAULT;
+	mode->RefreshRate = get_target_refresh_rate();
 	mode->Format = D3DFMT_X8R8G8B8;
 	mode->ScanLineOrdering = D3DSCANLINEORDERING_PROGRESSIVE;
 }
@@ -85,10 +126,8 @@ HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE
 	} else {
 		res = self->CreateDeviceEx(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, NULL, &device);
 	}
-	if (FAILED(res)) {
-		MessageBoxW(NULL, L"CreateDeviceEx failed!", L"Error", MB_ICONERROR);
-		exit(1);
-	}
+	if (FAILED(res))
+		panic_msgbox(L"CreateDeviceEx failed!\nCode: 0x%x", res);
 	*ppReturnedDeviceInterface = device;
 
 	// D3D9Ex breaks the window style for some reason
@@ -122,22 +161,12 @@ HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE
 IDirect3D9* WINAPI Direct3DCreate9_hook(UINT SDKVersion) {
 	printf("Direct3DCreate9 intercepted!\n");
 
-	if (!Config::D3D9Ex) {
-		MessageBox(
-			NULL,
-			L"Direct3DCreate9_hook was called despite D3D9Ex being disabled.\nThis is a bug. Please open an issue on Github.",
-			L"OpenInputLagPatch",
-			MB_ICONERROR
-		);
-		exit(1);
-	}
+	if (!Config::D3D9Ex)
+		panic_msgbox(L"Direct3DCreate9_hook was called despite D3D9Ex being disabled.");
 
-	IDirect3D9Ex* d3d9ex = nullptr;
-	if (FAILED(Direct3DCreate9Ex(D3D_SDK_VERSION, &d3d9ex)) || d3d9ex == nullptr) {
-		// TODO: Handle this in case someone wants to use XP for some reason
-		MessageBoxW(NULL, L"Direct3DCreate9Ex failed!", L"Error", MB_ICONERROR);
-		exit(1);
-	}
+	auto create_ret = Direct3DCreate9Ex(D3D_SDK_VERSION, &d3d9ex);
+	if (FAILED(create_ret) || d3d9ex == nullptr)
+		panic_msgbox(L"Direct3DCreate9Ex failed!\nCode: 0x%x", create_ret);
 
 	// Hook IDirect3D9Ex::CreateDevice
 	DWORD* d3d9ex_vtbl = *(DWORD**)d3d9ex;

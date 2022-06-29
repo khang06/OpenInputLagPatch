@@ -36,3 +36,14 @@ bool sha256_file(wchar_t* path, char* hash_str) {
 	}
 	return true;
 }
+
+void __declspec(noreturn) panic_msgbox(const wchar_t* format, ...) {
+	wchar_t buf[1024] = {};
+	va_list args;
+	va_start(args, format);
+	vswprintf_s(buf, format, args);
+	va_end(args);
+
+	MessageBoxW(NULL, buf, L"OpenInputLagPatch", MB_ICONERROR);
+	exit(1);
+}

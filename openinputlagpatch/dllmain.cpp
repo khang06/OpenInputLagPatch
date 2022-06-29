@@ -29,13 +29,7 @@ typedef struct _LDR_DLL_LOADED_NOTIFICATION_DATA
 
 // MessageBox is broken in dll_load_callback, so vpatch's entrypoint is redirected to this instead
 void vpatch_abort() {
-    MessageBox(
-        NULL,
-        L"vpatch and OpenInputLagPatch are incompatible.\nStop running the game via vpatch.exe or uninstall OpenInputLagPatch by deleting dinput8.dll.",
-        L"OpenInputLagPatch",
-        MB_ICONERROR
-    );
-    exit(1);
+    panic_msgbox(L"vpatch and OpenInputLagPatch are incompatible.\nStop running the game via vpatch.exe or uninstall OpenInputLagPatch by deleting dinput8.dll.");
 }
 
 VOID CALLBACK dll_load_callback(ULONG NotificationReason, PLDR_DLL_LOADED_NOTIFICATION_DATA NotificationData, PVOID Context) {
@@ -168,13 +162,7 @@ void install_patches() {
             th7_install_patches();
             break;
         default:
-            MessageBoxW(
-                NULL,
-                L"The game was detected properly, but it didn't have a patch handler. This shouldn't happen under any circumstances.\nPlease report this issue on the project Github page.",
-                L"OpenInputLagPatch",
-                MB_ICONERROR
-            );
-            exit(1);
+            panic_msgbox(L"The game was detected properly, but it didn't have a patch handler.");
     }
 }
 

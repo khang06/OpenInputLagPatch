@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "d3d9_hook.h"
 #include "config.h"
+#include "common.h"
 #include "limiter.h"
 
 /*
@@ -98,15 +99,8 @@ bool Limiter::SetGameFPS(int fps) {
 
 // Performs the actual frame limiting
 void Limiter::Tick() {
-	if (!initialized) {
-		MessageBox(
-			NULL,
-			L"Tried to tick the limiter before initialization.\nThis is a bug. Please make an issue on Github about this.",
-			L"OpenInputLagPatch",
-			MB_ICONERROR
-		);
-		exit(1);
-	}
+	if (!initialized)
+		panic_msgbox(L"Tried to tick the limiter before initialization.");
 
 	// Set up the target time before returning
 	bool temp_fps_change = UpdateTargetFPS();

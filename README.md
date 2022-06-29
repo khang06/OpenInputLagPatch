@@ -62,9 +62,10 @@ BltPrepareTime = 4
 ; Default: 1
 D3D9Ex = 1
 
-; Forces fullscreen to use 60hz, even if your display can go higher than that
-; Default: 0
-Force60Hz = 0
+; Chooses the refresh rate used by the game
+; 0: Maximum refresh rate, 1: 60hz, 2: Largest multiple of 60 (60hz, 120hz, 240hz)
+; Default: 2
+FullscreenRefreshRate = 2
 
 ; Opens a console for debugging purposes
 ; Default: 0
