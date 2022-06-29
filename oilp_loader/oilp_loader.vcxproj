@@ -98,7 +98,6 @@
     <ClInclude Include="..\openinputlagpatch\games.h" />
     <ClInclude Include="..\openinputlagpatch\games_def.h" />
     <ClInclude Include="..\openinputlagpatch\sha256.h" />
-    <ClInclude Include="..\openinputlagpatch\util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

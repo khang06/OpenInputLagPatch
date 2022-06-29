@@ -30,9 +30,6 @@
     <ClInclude Include="..\openinputlagpatch\sha256.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\openinputlagpatch\util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\openinputlagpatch\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>

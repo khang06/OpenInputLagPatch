@@ -5,7 +5,6 @@
 #include "games.h"
 #include "games_def.h"
 #include "common.h"
-#include "util.h"
 
 TouhouGame detect_game(wchar_t* game_path) {
 	// Hash the game
