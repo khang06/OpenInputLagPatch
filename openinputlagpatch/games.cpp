@@ -41,7 +41,13 @@ TouhouGame detect_game() {
 	}
 
 	// Couldn't find it
-	MessageBox(NULL, L"Failed to detect the game. Please make sure that the game you're trying to play is supported.\nIf you believe this is a mistake, please open an issue on Github.", L"OpenInputLagPatch", MB_ICONERROR);
+	MessageBox(
+		NULL,
+		L"Failed to detect the game. Please make sure that the game you're trying to play is supported.\n"
+		L"If you believe this is a mistake, please open an issue on Github.",
+		L"OpenInputLagPatch",
+		MB_ICONERROR
+	);
 	return TouhouGame::Unknown;
 }
 

@@ -182,7 +182,15 @@ void hook_d3d9() {
 		// Try to IAT hook the D3D8 wrapper
 		if (!iat_hook(L"d3d8.dll", "d3d9.dll", "Direct3DCreate9", Direct3DCreate9_hook)) {
 			// Okay, something went wrong
-			printf("Failed to hook Direct3DCreate9, d3d8to9 is probably not loaded!\n");
+			MessageBox(
+				NULL,
+				L"Couldn't hook Direct3DCreate9.\n"
+				L"This usually means you don't have a D3D8 wrapper installed or the one you have is incompatible.\n"
+				L"The game will run fine, but D3D9Ex features will be unavailable and you'll have worse input lag.\n"
+				L"Please install d3d8to9 for best results.",
+				L"OpenInputLagPatch",
+				MB_ICONWARNING
+			);
 		}
 	}
 }

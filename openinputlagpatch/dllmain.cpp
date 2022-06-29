@@ -29,7 +29,10 @@ typedef struct _LDR_DLL_LOADED_NOTIFICATION_DATA
 
 // MessageBox is broken in dll_load_callback, so vpatch's entrypoint is redirected to this instead
 void vpatch_abort() {
-    panic_msgbox(L"vpatch and OpenInputLagPatch are incompatible.\nStop running the game via vpatch.exe or uninstall OpenInputLagPatch by deleting dinput8.dll.");
+    panic_msgbox(
+        L"vpatch and OpenInputLagPatch are incompatible.\n"
+        L"Stop running the game via vpatch.exe or uninstall OpenInputLagPatch by deleting dinput8.dll."
+    );
 }
 
 VOID CALLBACK dll_load_callback(ULONG NotificationReason, PLDR_DLL_LOADED_NOTIFICATION_DATA NotificationData, PVOID Context) {
@@ -114,7 +117,9 @@ void check_enb_dx8() {
     if (!strcmp(hash_str, "1f0471c8fa53b035aa27d6d6505275e2ee0db55b6538b4e31fd79e54ce065759")) {
         MessageBox(
             NULL,
-            L"ENBSeries DX8 to DX9 Convertor detected.\nThe game will run fine, but D3D9Ex features will be unavailable and you'll have worse input lag.\nPlease install d3d8to9 for best results.",
+            L"ENBSeries DX8 to DX9 Convertor detected.\n"
+            L"The game will run fine, but D3D9Ex features will be unavailable and you'll have worse input lag.\n"
+            L"Please install d3d8to9 for best results.",
             L"OpenInputLagPatch",
             MB_ICONWARNING
         );
@@ -160,8 +165,15 @@ void install_patches() {
 // Main entrypoint
 void patcher_main() {
     Config::Load();
-    if (Config::DebugWait)
-        MessageBoxW(NULL, L"Waiting...\nIf you don't want to see this, set DebugWait to 0 in the config.", L"OpenInputLagPatch", 0);
+    if (Config::DebugWait) {
+        MessageBoxW(
+            NULL,
+            L"Waiting...\n"
+            L"If you don't want to see this, set DebugWait to 0 in the config.",
+            L"OpenInputLagPatch",
+            0
+        );
+    }
     if (Config::DebugConsole)
         create_console();
     check_vpatch();
