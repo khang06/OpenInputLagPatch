@@ -96,7 +96,7 @@ int wmain() {
 	do {
 		printf("Pick your game: ");
 		try {
-			sel = std::stod(cmd_inp());
+			sel = std::stoul(cmd_inp());
 		} catch (...) {
 			sel = games.size();
 		}
