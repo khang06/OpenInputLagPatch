@@ -62,7 +62,7 @@ BltPrepareTime = 4
 ; Default: 1
 D3D9Ex = 1
 
-; Chooses the refresh rate used by the game
+; Chooses the refresh rate used by the game. Only works if D3D9Ex is enabled
 ; 0: Maximum refresh rate, 1: 60hz, 2: Largest multiple of 60 (60hz, 120hz, 240hz)
 ; Default: 2
 FullscreenRefreshRate = 2
