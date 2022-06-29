@@ -6,6 +6,8 @@
 #include "touhou6.h"
 #include "config.h"
 
+using namespace Touhou6;
+
 CEngine* CEngine::Instance = (CEngine*)0x006C6D18;
 CWindowManager* CWindowManager::Instance = (CWindowManager*)0x006C6BD4;
 CChainManager* CChainManager::Instance = (CChainManager*)0x0069D918;
@@ -15,7 +17,7 @@ CGame* CGame::Instance = (CGame*)0x0069BCA0;
 // However, if I did that, the edi register gets corrupted by CChainManager::UpdateCalcChain
 // ...and that causes a crash because "this" is saved in that register in the generated assembly for this function
 // Doing it this way seems to work fine. More investigation required...
-int __fastcall update_calc_chain_hook() {
+int __fastcall th6_update_calc_chain_hook() {
 	auto engine = CEngine::Instance;
     Limiter::Tick();
 
@@ -48,7 +50,7 @@ int __fastcall update_calc_chain_hook() {
     return ret;
 }
 
-int __fastcall window_update_hook() {
+int __fastcall th6_window_update_hook() {
     if (!CWindowManager::Instance->activated) {
         Sleep(16);
         return 0;
@@ -70,12 +72,12 @@ void th6_install_patches() {
 	{
 		// Hook calc chain update
 		// Shaves off 1 frame of input lag by calling calc chains BEFORE drawing
-		patch_call((void*)0x00420853, update_calc_chain_hook);
+		patch_call((void*)0x00420853, th6_update_calc_chain_hook);
 	}
     {
         // Hook window updating
         // Avoid eating up CPU time while minimized
-        patch_call((void*)0x004204FF, window_update_hook);
+        patch_call((void*)0x004204FF, th6_window_update_hook);
     }
     if (Config::FixInputGlitching) {
         // Fix input glitching

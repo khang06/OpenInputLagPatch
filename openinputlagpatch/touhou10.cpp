@@ -6,6 +6,8 @@
 #include "config.h"
 #include "touhou10.h"
 
+using namespace Touhou10;
+
 CReplayManager** CReplayManager::InstancePtr = (CReplayManager**)0x00477838;
 
 int __stdcall update_window_hook(void* self) {

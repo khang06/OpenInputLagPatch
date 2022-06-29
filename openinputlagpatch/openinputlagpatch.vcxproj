@@ -98,6 +98,7 @@
     <ClCompile Include="sha256.c" />
     <ClCompile Include="touhou10.cpp" />
     <ClCompile Include="touhou6.cpp" />
+    <ClCompile Include="touhou7.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="sha256.h" />
     <ClInclude Include="touhou10.h" />
     <ClInclude Include="touhou6.h" />
+    <ClInclude Include="touhou7.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -27,12 +27,18 @@ std::vector<std::vector<const char*>> game_hashes{
 		"d28e36a6596a4c64b441c148d65a8c12b68e4a683f1d14e7df83d43f92c57d71", // English patch
 		"3bdb72cf3d7c33c183359d368c801490dbcf54e6b3b2f060b95d72250b6866a3", // Steam release
 	},
+	// Touhou 7: Perfect Cherry Blossom
+	{
+		"35467eaf8dc7fc85f024f16fb2037255f151cefda33cf4867bc9122aaa2e80ca", // Original
+		"275cfdcab6ad463be4d3d646ddc21811dc65cb1c7e88c7b18bb8a89f25316655", // English patch
+	}
 };
 
 const char* game_to_string[] = {
 	"custom.exe",
 	"Touhou 6 v1.02",
 	"Touhou 10 v1.00a",
+	"Touhou 7 v1.00b",
 };
 
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
@@ -43,6 +49,7 @@ ReplayCallback game_to_replay_callback[] = {
 	nullptr,
 	th6_replay_callback,
 	th10_replay_callback,
+	th7_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif

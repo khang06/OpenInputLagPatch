@@ -13,7 +13,7 @@ Very few games are supported for now, but support for more games is actively bei
 | Game                            | Supported | Replay speed control |
 |---------------------------------|-----------|----------------------|
 | Embodiment of Scarlet Devil     |✅|✅|
-| Perfect Cherry Blossom          |❌|❔|
+| Perfect Cherry Blossom          |✅|✅|
 | Imperishable Night              |❌|❔|
 | Phantasmagoria of Flower View   |❌|❔|
 | Shoot the Bullet                |❌|❔|
@@ -85,7 +85,7 @@ GameOverride = -1
 ```
 
 # Technical details
-*(Touhou 6 only)* The game loop is modified to run the drawing logic *after* the game update logic instead of the other way around, which should shave off a frame of input lag.
+*(Touhou 6-7 only)* The game loop is modified to run the drawing logic *after* the game update logic instead of the other way around, which should shave off a frame of input lag.
 
 `Direct3D9Create` is hooked to use `Direct3D9CreateEx` instead, which allows the use of `IDirect3DDevice9Ex::SetMaximumFrameLatency`, which should shave off an additional 0 to 2 frames of input lag.
 

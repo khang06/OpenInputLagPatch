@@ -44,6 +44,9 @@
     <ClCompile Include="config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="touhou7.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="patch_util.h">
@@ -80,6 +83,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="games_def.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="touhou7.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

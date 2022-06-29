@@ -134,6 +134,9 @@ void install_patches() {
         case TouhouGame::Th10:
             th10_install_patches();
             break;
+        case TouhouGame::Th7:
+            th7_install_patches();
+            break;
         default:
             MessageBoxW(
                 NULL,
