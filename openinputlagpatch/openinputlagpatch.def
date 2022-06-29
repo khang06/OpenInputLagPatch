@@ -1,0 +1,3 @@
+EXPORTS
+	oilp_set_game_fps
+	oilp_get_game_fps

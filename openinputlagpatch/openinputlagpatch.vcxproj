@@ -63,6 +63,7 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>shlwapi.lib;d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
+      <ModuleDefinitionFile>openinputlagpatch.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -116,6 +117,9 @@
     <ClInclude Include="games\touhou10.h" />
     <ClInclude Include="games\touhou6.h" />
     <ClInclude Include="games\touhou7.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="openinputlagpatch.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

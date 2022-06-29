@@ -107,4 +107,9 @@
       <Filter>Header Files\games</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="openinputlagpatch.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>
