@@ -15,6 +15,8 @@ std::vector<std::vector<const char*>> game_hashes{
 		"aff0f325a34559f9f8df5778bdf30f2f538a039689323f670410f6d6357a2845", // IN v1.00d original
 		"ca38af8553e3912df4a0badf81760538bbd07785380a02823c849454d776fe84", // IN v1.00d English patch
 		"e5a394da95e69678dca7f4d44ce5bf80101f48d1903c9e95ebcbdf3b5199e6f4", // IN v1.00d Chinese patch
+		"13206ce957266aac12cbe3d7b59076c12d17f17acca31fc4a8e642f61f31b7c3", // PoFV v1.50a original
+		"a804e44167ed460598372f1893a87791592e389cea9a54b22d6e6cb0b23915b6", // PoFV v1.50a English patch
 	},
 	// Touhou 6: Embodiment of Scarlet Devil v1.02h
 	{
@@ -41,6 +43,11 @@ std::vector<std::vector<const char*>> game_hashes{
 	{
 		"330fbdbf58a710829d65277b4f312cfbb38d5448b3df523e79350b879213d924", // Original
 		"467085c3c85ceed4b6f5be410e14cd56f1af0b5afa4e0c752270b56ecbc470cf", // English patch
+	},
+	// Touhou 9: Phantasmagoria of Flower View v1.50a
+	{
+		"10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822", // Original
+		"f402287326bcee15b6eda743f1edb7882294257d65c8d828d849110cb0c53bb6", // English patch
 	}
 };
 
@@ -50,6 +57,7 @@ const char* game_to_string[] = {
 	"Touhou 10 v1.00a",
 	"Touhou 7 v1.00b",
 	"Touhou 8 v1.00d",
+	"Touhou 9 v1.50a",
 };
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -61,6 +69,7 @@ GamePatchFunction game_to_patch_function[] = {
 	th10_install_patches,
 	th7_install_patches,
 	th8_install_patches,
+	th9_install_patches,
 };
 static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -70,6 +79,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th10_replay_callback,
 	th7_replay_callback,
 	th8_replay_callback,
+	nullptr, // TODO: Can't just read a pointer for the input values in replay mode, we have to read input from DirectInput/GetKeyboardState manually
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif

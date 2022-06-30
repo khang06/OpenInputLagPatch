@@ -59,6 +59,9 @@
     <ClCompile Include="games\touhou8.cpp">
       <Filter>Source Files\games</Filter>
     </ClCompile>
+    <ClCompile Include="games\touhou9.cpp">
+      <Filter>Source Files\games</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="patch_util.h">
@@ -104,6 +107,9 @@
       <Filter>Header Files\games</Filter>
     </ClInclude>
     <ClInclude Include="games\touhou8.h">
+      <Filter>Header Files\games</Filter>
+    </ClInclude>
+    <ClInclude Include="games\touhou9.h">
       <Filter>Header Files\games</Filter>
     </ClInclude>
   </ItemGroup>
