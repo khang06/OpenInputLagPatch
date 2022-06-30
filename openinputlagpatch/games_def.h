@@ -97,7 +97,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th7_replay_callback,
 	th8_replay_callback,
 	nullptr, // TODO: Can't just read a pointer for the input values in replay mode, we have to read input from DirectInput/GetKeyboardState manually
-	nullptr, // TODO: Hook and disable the built-in replay speed control
+	th11_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif

@@ -3,6 +3,7 @@
 #include "config.h"
 
 UINT Config::GameFPS = 60;
+BOOL Config::ReplaySpeedControl = TRUE;
 UINT Config::ReplaySkipFPS = 240;
 UINT Config::ReplaySlowFPS = 30;
 UINT Config::BltPrepareTime = 4;
@@ -23,6 +24,7 @@ bool Config::Load() {
 
 	// Load the config
 	Config::GameFPS = GetPrivateProfileInt(L"Option", L"GameFPS", Config::GameFPS, config_path);
+	Config::ReplaySpeedControl = GetPrivateProfileInt(L"Option", L"ReplaySpeedControl", Config::ReplaySpeedControl, config_path);
 	Config::ReplaySkipFPS = GetPrivateProfileInt(L"Option", L"ReplaySkipFPS", Config::ReplaySkipFPS, config_path);
 	Config::ReplaySlowFPS = GetPrivateProfileInt(L"Option", L"ReplaySlowFPS", Config::ReplaySlowFPS, config_path);
 	Config::BltPrepareTime = GetPrivateProfileInt(L"Option", L"BltPrepareTime", Config::BltPrepareTime, config_path);

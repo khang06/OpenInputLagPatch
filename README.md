@@ -19,7 +19,7 @@ Very few games are supported for now, but support for more games is actively bei
 | Shoot the Bullet                |❌|❔|
 | Mountain of Faith               |✅|✅|
 | Uwabami Breakers                |❌|❔|
-| Subterranean Animism            |✅|❌|
+| Subterranean Animism            |✅|✅|
 | Undefined Fantastic Object      |❌|❔|
 | Double Spoiler                  |❌|❔|
 | Great Fairy Wars                |❌|❔|
@@ -43,6 +43,11 @@ OpenInputLagPatch is configured via a file called `openinputlagpatch.ini` stored
 ; Going above 60 doesn't make the game any smoother, it just makes it faster
 ; Default: 60
 GameFPS = 60
+
+; Allow controlling the speed of replay playback
+; This will override the in-game replay speed control if it exists
+; Default: 1
+ReplaySpeedControl = 1
 
 ; Target framerate for replay skipping (hold LCTRL during replay playback)
 ; Default: 240

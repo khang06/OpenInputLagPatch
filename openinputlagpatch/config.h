@@ -16,6 +16,7 @@ public:
 	static bool Load();
 
 	static UINT GameFPS;
+	static BOOL ReplaySpeedControl;
 	static UINT ReplaySkipFPS;
 	static UINT ReplaySlowFPS;
 	static UINT BltPrepareTime;

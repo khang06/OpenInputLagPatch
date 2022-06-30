@@ -37,4 +37,21 @@ void th11_install_patches() {
 		// This should force our Direct3DCreate9 hook to be loaded no matter what
 		patch_call((void*)0x0044570E, Direct3DCreate9_hook);
 	}
+	if (Config::ReplaySpeedControl) {
+		// Skip the original replay speed control stuff
+		BYTE patch[] = { 0xEB };
+		patch_bytes((void*)0x00436D5F, patch, sizeof(patch));
+	}
+}
+
+FPSTarget th11_replay_callback() {
+	if (*CReplayManager::InstancePtr && (*CReplayManager::InstancePtr)->mode == 1) {
+		// TODO: Reverse engineer this struct instead of being lazy
+		auto input = *(DWORD*)0x004C92A8;
+		if (input & InputState::Focus)
+			return FPSTarget::ReplaySlow;
+		else if (input & InputState::Skip)
+			return FPSTarget::ReplaySkip;
+	}
+	return FPSTarget::Game;
 }

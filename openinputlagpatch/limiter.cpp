@@ -69,7 +69,7 @@ void Limiter::Initialize(ReplayCallback callback) {
 // Returns true if the player is skipping or slowing down a replay
 bool Limiter::UpdateTargetFPS() {
 	UINT target = Config::GameFPS;
-	if (replay_callback) {
+	if (Config::ReplaySpeedControl && replay_callback) {
 		switch (replay_callback()) {
 			case FPSTarget::Game:
 				target = Config::GameFPS;
