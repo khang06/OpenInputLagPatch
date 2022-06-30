@@ -20,6 +20,8 @@ std::vector<std::vector<const char*>> game_hashes{
 		"ce3ed8afede42074a993eb9d3114420ccb96e8717ae207d3257fb2cd94836126", // SA v1.00a original
 		"405926e10d8bce204dd2b090ae827046b64c373d6d993289dfe40e16c81ad169", // SA v1.00a English patch
 		"45730fa1f9463c65f44165a1b8682b628f4b5ee32e60db10f412a0fa4178b62f", // SA v1.00a Korean patch
+		"80d404fa2f616e8043744ade0dd9441dda09f4c6be0bd60bb053ac37d4530da5", // UFO v1.00b original
+		"ca124ef6ab5a7d5deb6a5dbf4b486f9b402d7d7d3193f6cb1eefe03c50ada687", // UFO v1.00b English patch
 	},
 	// Touhou 6: Embodiment of Scarlet Devil v1.02h
 	{
@@ -63,7 +65,19 @@ std::vector<std::vector<const char*>> game_hashes{
 		"df6edcf5649b1df917ef91000e3047d49ba3be33301d8d6789b74b1f8b78b435", // Riri's practice patch v1.03
 		"e42c8df5ba2d704fb6bd5c50d9fb35c49ebf3122dab75b19b7ed17b6bc84166d", // Old Steam release (6454988231458882848)
 		"47cbcfdba984e32ba2887bc0a8c35e21aa8a039c1d87675da8493544d86e2a42", // Steam release
-	}
+	},
+	// Touhou 12: Undefined Fantastic Object v1.00b
+	{
+		"d8d644d2e64957a3031b1a1399d0502e1ddaa5252d2c4e492770ad6717827628", // Original
+		"0c9ac1c756eaef681f7538af72b297877ac13f06c2ca2df743e8a29d96672d08", // Score counter fix
+		"9bcc0675792a057d97a5f560c3d0cf21d07cb02f01d47a9207dcbe1c5efffee5", // English patch
+		"d116fed3eef093607f8c4b55fd0ec45dfc99139a7e1913f88570db0968341ba2", // English patch + score counter fix
+		"7b3d64c41cb078b5cbf5ccce11b14278690e90689f1a1c14dce15b0880efb06c", // English patch + autobomb patch
+		"b851680ff45c15ae39257ee7590fcf3c8aba76c839289d94d5a5c30daadb00a1", // English patch + autobomb patch + score counter fix
+		"91919e9bc48babdcb6c6eab2906d670a25634d9f8e6e4884f35dc4a61fb8bde3", // Old Steam release (6604501887647785241)
+		"988f5ea067b247cde91754cb62f66ffdf71b4d5b874da8000e579b928a71829b", // Old Steam release (7325231149869118532)
+		"eb275a8c285fd8450fa5ac79fa730a759aeca8b2904aeb16d30e65859372a459", // Steam release
+	},
 };
 
 const char* game_to_string[] = {
@@ -74,6 +88,7 @@ const char* game_to_string[] = {
 	"Touhou 8 v1.00d",
 	"Touhou 9 v1.50a",
 	"Touhou 11 v1.00a",
+	"Touhou 12 v1.00b",
 };
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -87,6 +102,7 @@ GamePatchFunction game_to_patch_function[] = {
 	th8_install_patches,
 	th9_install_patches,
 	th11_install_patches,
+	th12_install_patches,
 };
 static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -98,6 +114,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th8_replay_callback,
 	nullptr, // TODO: Can't just read a pointer for the input values in replay mode, we have to read input from DirectInput/GetKeyboardState manually
 	th11_replay_callback,
+	th12_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif

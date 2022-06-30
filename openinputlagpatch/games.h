@@ -14,6 +14,7 @@ enum class TouhouGame {
 	Th8 = 4,
 	Th9 = 5,
 	Th11 = 6,
+	Th12 = 7,
 	MaxValue, // Dummy value used for config validation
 };
 
@@ -48,3 +49,5 @@ void th9_install_patches();
 //FPSTarget th9_replay_callback();
 void th11_install_patches();
 FPSTarget th11_replay_callback();
+void th12_install_patches();
+FPSTarget th12_replay_callback();
