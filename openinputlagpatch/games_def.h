@@ -98,6 +98,12 @@ std::vector<std::vector<const char*>> game_hashes{
 		"67a642357c8777089f468aab9c7a0ae346ebdb62849d842a7b7b18d1e6910364", // Original
 		"c31552dbf34a4137e2a1fe066732557e92cbc307261c6ef148a8966181968edc", // Steam release
 	},
+	// Touhou 16: Hidden Star in Four Seasons v1.00a
+	{
+		"c11776019f083978e66027e7394dafb1fb9543afca986f28049a49417e341929", // Original
+		"aee27f70c2b9f7e7acba15b3b35449c79e4d707e404646362b8edf961a574731", // Steam release
+		"28706073602c95bccafd86ee535b54e8ab9312cf6d211343c7ceab5bad7968da", // Unpacked Steam release
+	},
 };
 
 const char* game_to_string[] = {
@@ -112,6 +118,7 @@ const char* game_to_string[] = {
 	"Touhou 13 v1.00c",
 	"Touhou 14 v1.00b",
 	"Touhou 15 v1.00b",
+	"Touhou 16 v1.00a",
 };
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -129,6 +136,7 @@ GamePatchFunction game_to_patch_function[] = {
 	th13_install_patches,
 	th14_install_patches,
 	th15_install_patches,
+	th16_install_patches,
 };
 static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -144,6 +152,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th13_replay_callback,
 	th14_replay_callback,
 	th15_replay_callback,
+	th16_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif

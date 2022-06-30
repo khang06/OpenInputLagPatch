@@ -27,7 +27,7 @@ Very few games are supported for now, but support for more games is actively bei
 | Double Dealing Character        |✅|✅|
 | Impossible Spell Card           |❌|❔|
 | Legacy of Lunatic Kingdom       |✅|✅|
-| Hidden Star in Four Seasons     |❌|❔|
+| Hidden Star in Four Seasons     |✅|✅|
 | Violet Detector                 |❌|❔|
 | Wily Beast and Weakest Creature |❌|❔|
 | Unconnected Marketeers          |❌|❔|
