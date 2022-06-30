@@ -26,7 +26,7 @@ Very few games are supported for now, but support for more games is actively bei
 | Ten Desires                     |✅|✅|
 | Double Dealing Character        |✅|✅|
 | Impossible Spell Card           |❌|❔|
-| Legacy of Lunatic Kingdom       |❌|❔|
+| Legacy of Lunatic Kingdom       |✅|✅|
 | Hidden Star in Four Seasons     |❌|❔|
 | Violet Detector                 |❌|❔|
 | Wily Beast and Weakest Creature |❌|❔|

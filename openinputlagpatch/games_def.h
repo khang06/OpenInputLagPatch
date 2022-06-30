@@ -24,6 +24,7 @@ std::vector<std::vector<const char*>> game_hashes{
 		"ca124ef6ab5a7d5deb6a5dbf4b486f9b402d7d7d3193f6cb1eefe03c50ada687", // UFO v1.00b English patch
 		"bafc4bdde9745623f9ae1c57f7e26f6f98952847255a8b872b0909ccb99d9ba1", // DDC v1.00b original
 		"21ad97e6736d204bc25e1d46ccf765106c0fafd349152041ffc0b007ac5b5d6c", // DDC v1.00b XP patch
+		"b3dc4ac8879d2c4d16cc611d2daeea6b6d9fe624a7b4a48806989ccefa377963", // LoLK v1.00a original
 	},
 	// Touhou 6: Embodiment of Scarlet Devil v1.02h
 	{
@@ -91,7 +92,12 @@ std::vector<std::vector<const char*>> game_hashes{
 	{
 		"f08e885e28d2e0fc8c579e88034dd7de8f2a648d8f08ce781cf08eadc9ffe353", // Original
 		"4609e701b677b8317e43be92041f0c7075a292182848a7c11215c3a226034f90", // Steam release
-	}
+	},
+	// Touhou 15: Legacy of Lunatic Kingdom v1.00b
+	{
+		"67a642357c8777089f468aab9c7a0ae346ebdb62849d842a7b7b18d1e6910364", // Original
+		"c31552dbf34a4137e2a1fe066732557e92cbc307261c6ef148a8966181968edc", // Steam release
+	},
 };
 
 const char* game_to_string[] = {
@@ -105,6 +111,7 @@ const char* game_to_string[] = {
 	"Touhou 12 v1.00b",
 	"Touhou 13 v1.00c",
 	"Touhou 14 v1.00b",
+	"Touhou 15 v1.00b",
 };
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -121,6 +128,7 @@ GamePatchFunction game_to_patch_function[] = {
 	th12_install_patches,
 	th13_install_patches,
 	th14_install_patches,
+	th15_install_patches,
 };
 static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -135,6 +143,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th12_replay_callback,
 	th13_replay_callback,
 	th14_replay_callback,
+	th15_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif

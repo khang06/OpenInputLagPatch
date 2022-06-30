@@ -61,8 +61,11 @@ UINT get_target_refresh_rate(D3DPRESENT_PARAMETERS* present_params) {
 
 				// Pick the highest multiple of 60 refresh rate at the selected resolution
 				for (UINT i = 0; i < count; i++) {
-					if (modes[i].Width == present_params->BackBufferWidth && modes[i].Height == present_params->BackBufferHeight && (modes[i].RefreshRate == 59 || modes[i].RefreshRate % 60 == 0))
-						max_refresh_rate = modes[i].RefreshRate == 59 ? 60 : modes[i].RefreshRate;
+					if (modes[i].Width == present_params->BackBufferWidth && modes[i].Height == present_params->BackBufferHeight && (modes[i].RefreshRate == 59 || modes[i].RefreshRate % 60 == 0)) {
+						auto rate = modes[i].RefreshRate == 59 ? 60 : modes[i].RefreshRate;
+						if (rate > max_refresh_rate)
+							max_refresh_rate = rate;
+					}
 				}
 				if (max_refresh_rate == 0)
 					panic_msgbox(L"Failed to find a suitable display mode");
