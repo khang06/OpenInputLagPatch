@@ -41,7 +41,7 @@ HRESULT __stdcall CreateVertexBuffer_hook(IDirect3DDevice9Ex* self, UINT Length,
 // Gets the target fullscreen refresh rate
 // TODO: This might not be so great on multi-monitor setups
 UINT max_refresh_rate = 0;
-UINT get_target_refresh_rate() {
+UINT get_target_refresh_rate(D3DPRESENT_PARAMETERS* present_params) {
 	switch (Config::FullscreenRefreshRate) {
 		case TargetRefreshRate::Max:
 			return D3DPRESENT_RATE_DEFAULT;
@@ -59,9 +59,9 @@ UINT get_target_refresh_rate() {
 					printf("%d x %d @ %dhz\n", modes[i].Width, modes[i].Height, modes[i].RefreshRate);
 				}
 
-				// Pick the highest multiple of 60 refresh rate at 640x480
+				// Pick the highest multiple of 60 refresh rate at the selected resolution
 				for (UINT i = 0; i < count; i++) {
-					if (modes[i].Width == 640 && modes[i].Height == 480 && (modes[i].RefreshRate == 59 || modes[i].RefreshRate % 60 == 0))
+					if (modes[i].Width == present_params->BackBufferWidth && modes[i].Height == present_params->BackBufferHeight && (modes[i].RefreshRate == 59 || modes[i].RefreshRate % 60 == 0))
 						max_refresh_rate = modes[i].RefreshRate == 59 ? 60 : modes[i].RefreshRate;
 				}
 				if (max_refresh_rate == 0)
@@ -80,18 +80,18 @@ UINT get_target_refresh_rate() {
 // Modifies presentation parameters to work properly with Direct3D9Ex
 void modify_presentation_parameters(D3DPRESENT_PARAMETERS* params) {
 	params->PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-	params->FullScreen_RefreshRateInHz = params->Windowed ? D3DPRESENT_RATE_DEFAULT : get_target_refresh_rate();
+	params->FullScreen_RefreshRateInHz = params->Windowed ? D3DPRESENT_RATE_DEFAULT : get_target_refresh_rate(params);
 	params->SwapEffect = D3DSWAPEFFECT_DISCARD;
 	params->BackBufferCount = 0;
 }
 
 // Gets the display mode for fullscreen
-void get_fullscreen_display_mode(D3DDISPLAYMODEEX* mode) {
+void get_fullscreen_display_mode(D3DPRESENT_PARAMETERS* present_params, D3DDISPLAYMODEEX* mode) {
 	mode->Size = sizeof(D3DDISPLAYMODEEX);
-	mode->Width = 640;
-	mode->Height = 480;
-	mode->RefreshRate = get_target_refresh_rate();
-	mode->Format = D3DFMT_X8R8G8B8;
+	mode->Width = present_params->BackBufferWidth;
+	mode->Height = present_params->BackBufferHeight;
+	mode->RefreshRate = get_target_refresh_rate(present_params);
+	mode->Format = present_params->BackBufferFormat;
 	mode->ScanLineOrdering = D3DSCANLINEORDERING_PROGRESSIVE;
 }
 
@@ -101,7 +101,7 @@ HRESULT __stdcall Reset_hook(IDirect3DDevice9Ex* self, D3DPRESENT_PARAMETERS* pP
 	modify_presentation_parameters(pPresentationParameters);
 
 	D3DDISPLAYMODEEX display_mode = {};
-	get_fullscreen_display_mode(&display_mode);
+	get_fullscreen_display_mode(pPresentationParameters, &display_mode);
 
 	return self->ResetEx(pPresentationParameters, pPresentationParameters->Windowed ? NULL : &display_mode);
 }
@@ -120,7 +120,7 @@ HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE
 	HRESULT res = 0;
 	if (pPresentationParameters->Windowed == FALSE) {
 		D3DDISPLAYMODEEX display_mode = {};
-		get_fullscreen_display_mode(&display_mode);
+		get_fullscreen_display_mode(pPresentationParameters, &display_mode);
 
 		res = self->CreateDeviceEx(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, &display_mode, &device);
 	} else {

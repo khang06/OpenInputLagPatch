@@ -22,6 +22,8 @@ std::vector<std::vector<const char*>> game_hashes{
 		"45730fa1f9463c65f44165a1b8682b628f4b5ee32e60db10f412a0fa4178b62f", // SA v1.00a Korean patch
 		"80d404fa2f616e8043744ade0dd9441dda09f4c6be0bd60bb053ac37d4530da5", // UFO v1.00b original
 		"ca124ef6ab5a7d5deb6a5dbf4b486f9b402d7d7d3193f6cb1eefe03c50ada687", // UFO v1.00b English patch
+		"bafc4bdde9745623f9ae1c57f7e26f6f98952847255a8b872b0909ccb99d9ba1", // DDC v1.00b original
+		"21ad97e6736d204bc25e1d46ccf765106c0fafd349152041ffc0b007ac5b5d6c", // DDC v1.00b XP patch
 	},
 	// Touhou 6: Embodiment of Scarlet Devil v1.02h
 	{
@@ -84,6 +86,12 @@ std::vector<std::vector<const char*>> game_hashes{
 		"2368f892d2d15ce96e546de33290501bccd03188b875649012d43616314d21c3", // English patch
 		"1a6e3eb3b65238a739d7250606e9cb233d16b505c3340a11c4584b583388930d", // Steam release
 	},
+	// Touhou 14: Double Dealing Character v1.00b
+	// TODO: Are the Playism offsets the same?
+	{
+		"f08e885e28d2e0fc8c579e88034dd7de8f2a648d8f08ce781cf08eadc9ffe353", // Original
+		"4609e701b677b8317e43be92041f0c7075a292182848a7c11215c3a226034f90", // Steam release
+	}
 };
 
 const char* game_to_string[] = {
@@ -96,6 +104,7 @@ const char* game_to_string[] = {
 	"Touhou 11 v1.00a",
 	"Touhou 12 v1.00b",
 	"Touhou 13 v1.00c",
+	"Touhou 14 v1.00b",
 };
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -111,6 +120,7 @@ GamePatchFunction game_to_patch_function[] = {
 	th11_install_patches,
 	th12_install_patches,
 	th13_install_patches,
+	th14_install_patches,
 };
 static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -124,6 +134,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th11_replay_callback,
 	th12_replay_callback,
 	th13_replay_callback,
+	th14_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif
