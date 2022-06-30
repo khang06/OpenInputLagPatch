@@ -20,7 +20,7 @@ Very few games are supported for now, but support for more games is actively bei
 | Mountain of Faith               |✅|✅|
 | Uwabami Breakers                |❌|❔|
 | Subterranean Animism            |✅|✅|
-| Undefined Fantastic Object      |❌|❔|
+| Undefined Fantastic Object      |✅|✅|
 | Double Spoiler                  |❌|❔|
 | Great Fairy Wars                |❌|❔|
 | Ten Desires                     |❌|❔|
