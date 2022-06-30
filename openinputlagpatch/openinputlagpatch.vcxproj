@@ -95,6 +95,7 @@
     <ClCompile Include="games.cpp" />
     <ClCompile Include="games\touhou11.cpp" />
     <ClCompile Include="games\touhou12.cpp" />
+    <ClCompile Include="games\touhou13.cpp" />
     <ClCompile Include="games\touhou8.cpp" />
     <ClCompile Include="games\touhou9.cpp" />
     <ClCompile Include="limiter.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="games.h" />
     <ClInclude Include="games\touhou11.h" />
     <ClInclude Include="games\touhou12.h" />
+    <ClInclude Include="games\touhou13.h" />
     <ClInclude Include="games\touhou8.h" />
     <ClInclude Include="games\touhou9.h" />
     <ClInclude Include="games_def.h" />

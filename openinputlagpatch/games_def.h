@@ -78,6 +78,12 @@ std::vector<std::vector<const char*>> game_hashes{
 		"988f5ea067b247cde91754cb62f66ffdf71b4d5b874da8000e579b928a71829b", // Old Steam release (7325231149869118532)
 		"eb275a8c285fd8450fa5ac79fa730a759aeca8b2904aeb16d30e65859372a459", // Steam release
 	},
+	// Touhou 13: Ten Desires v1.00c
+	{
+		"422f40aa176c9aab7d0178ce6033802b4143921a5e0e463ef99259ef6d100a58", // Original
+		"2368f892d2d15ce96e546de33290501bccd03188b875649012d43616314d21c3", // English patch
+		"1a6e3eb3b65238a739d7250606e9cb233d16b505c3340a11c4584b583388930d", // Steam release
+	},
 };
 
 const char* game_to_string[] = {
@@ -89,6 +95,7 @@ const char* game_to_string[] = {
 	"Touhou 9 v1.50a",
 	"Touhou 11 v1.00a",
 	"Touhou 12 v1.00b",
+	"Touhou 13 v1.00c",
 };
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -103,6 +110,7 @@ GamePatchFunction game_to_patch_function[] = {
 	th9_install_patches,
 	th11_install_patches,
 	th12_install_patches,
+	th13_install_patches,
 };
 static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -115,6 +123,7 @@ ReplayCallback game_to_replay_callback[] = {
 	nullptr, // TODO: Can't just read a pointer for the input values in replay mode, we have to read input from DirectInput/GetKeyboardState manually
 	th11_replay_callback,
 	th12_replay_callback,
+	th13_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif
