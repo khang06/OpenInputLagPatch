@@ -6,6 +6,7 @@
 #include "games.h"
 #include "limiter.h"
 #include "d3d9_hook.h"
+#include "d3dx9_hook.h"
 #include "config.h"
 #include "sha256.h"
 #include "common.h"
@@ -153,8 +154,10 @@ void install_patches() {
 
     Limiter::Initialize(get_replay_callback(game));
     hook_winmm_time_period();
-    if (Config::D3D9Ex)
+    if (Config::D3D9Ex) {
         hook_d3d9();
+        hook_d3dx9();
+    }
 
     auto patch_function = get_patch_function(game);
     if (!patch_function)

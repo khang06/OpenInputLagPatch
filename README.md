@@ -19,7 +19,7 @@ Very few games are supported for now, but support for more games is actively bei
 | Shoot the Bullet                |❌|❔|
 | Mountain of Faith               |✅|✅|
 | Uwabami Breakers                |❌|❔|
-| Subterranean Animism            |❌|❔|
+| Subterranean Animism            |✅|❌|
 | Undefined Fantastic Object      |❌|❔|
 | Double Spoiler                  |❌|❔|
 | Great Fairy Wars                |❌|❔|

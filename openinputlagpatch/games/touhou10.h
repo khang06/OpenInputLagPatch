@@ -1,6 +1,8 @@
 #pragma once
 // Touhou 10: Mountain of Faith v1.00a
 
+#include <Windows.h>
+
 namespace Touhou10 {
 	auto CWindowManager__Update = (int(__stdcall*)(void*))0x00439390;
 

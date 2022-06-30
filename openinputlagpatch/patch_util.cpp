@@ -15,11 +15,11 @@ void patch_call(void* target, void* func) {
     patch_bytes(target, patch, sizeof(patch));
 }
 
-bool iat_hook(LPCWSTR target, LPCSTR dll, LPCSTR func, void* hook) {
+void* iat_hook(LPCWSTR target, LPCSTR dll, LPCSTR func, void* hook) {
     // Get a pointer to the module
     auto pe = (char*)GetModuleHandleW(target);
     if (!pe)
-        return false;
+        return nullptr;
 
     // Get the PE optional header
     auto nt_header = (PIMAGE_NT_HEADERS32)(pe + ((PIMAGE_DOS_HEADER)pe)->e_lfanew);
@@ -35,15 +35,15 @@ bool iat_hook(LPCWSTR target, LPCSTR dll, LPCSTR func, void* hook) {
         }
     }
     if (!found)
-        return false;
+        return nullptr;
 
     // Get the target function's pointer
     auto dll_handle = GetModuleHandleA(dll);
     if (!dll_handle)
-        return false;
+        return nullptr;
     auto target_ptr = (DWORD)GetProcAddress(dll_handle, func);
     if (!target_ptr)
-        return false;
+        return nullptr;
 
     // Find and replace the target function with the hook
     auto thunk = (PIMAGE_THUNK_DATA)(pe + import_desc->FirstThunk);
@@ -54,5 +54,5 @@ bool iat_hook(LPCWSTR target, LPCSTR dll, LPCSTR func, void* hook) {
         }
     }
 
-    return true;
+    return (void*)target_ptr;
 }

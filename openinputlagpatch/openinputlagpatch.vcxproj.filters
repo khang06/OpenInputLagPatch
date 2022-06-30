@@ -62,6 +62,12 @@
     <ClCompile Include="games\touhou9.cpp">
       <Filter>Source Files\games</Filter>
     </ClCompile>
+    <ClCompile Include="games\touhou11.cpp">
+      <Filter>Source Files\games</Filter>
+    </ClCompile>
+    <ClCompile Include="d3dx9_hook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="patch_util.h">
@@ -111,6 +117,12 @@
     </ClInclude>
     <ClInclude Include="games\touhou9.h">
       <Filter>Header Files\games</Filter>
+    </ClInclude>
+    <ClInclude Include="games\touhou11.h">
+      <Filter>Header Files\games</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dx9_hook.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
