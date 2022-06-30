@@ -9,7 +9,7 @@ A **heavily work-in-progress** replacement for [vpatch](https://ux.getuploader.c
 4. Run oilp_loader.exe
 
 # Compatibility
-Very few games are supported for now, but support for more games is actively being worked on.
+Not every game is supported, but support for more games is actively being worked on.
 | Game                            | Supported | Replay speed control |
 |---------------------------------|-----------|----------------------|
 | Embodiment of Scarlet Devil     |✅|✅|
