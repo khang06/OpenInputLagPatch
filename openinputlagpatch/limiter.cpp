@@ -111,7 +111,9 @@ void Limiter::Tick() {
 	// Perform the frame limiting
 	LARGE_INTEGER cur_time;
 	QueryPerformanceCounter(&cur_time);
-	if (target >= cur_time.QuadPart && last_wait_amount.QuadPart == wait_amount.QuadPart) {
+
+	// Only resync the timer if a full frame has been skipped
+	if (target + wait_amount.QuadPart >= cur_time.QuadPart && last_wait_amount.QuadPart == wait_amount.QuadPart) {
 		while (cur_time.QuadPart < target)
 			QueryPerformanceCounter(&cur_time);
 	} else {
