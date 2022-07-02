@@ -21,7 +21,7 @@ Not every game is supported, but support for more games is actively being worked
 | Uwabami Breakers                |❌|❔|
 | Subterranean Animism            |✅|✅|
 | Undefined Fantastic Object      |✅|✅|
-| Double Spoiler                  |❌|❔|
+| Double Spoiler                  |✅|✅|
 | Great Fairy Wars                |❌|❔|
 | Ten Desires                     |✅|✅|
 | Double Dealing Character        |✅|✅|
