@@ -25,7 +25,7 @@ Not every game is supported, but support for more games is actively being worked
 | Great Fairy Wars                |✅|✅|
 | Ten Desires                     |✅|✅|
 | Double Dealing Character        |✅|✅|
-| Impossible Spell Card           |❌|❔|
+| Impossible Spell Card           |✅|✅|
 | Legacy of Lunatic Kingdom       |✅|✅|
 | Hidden Star in Four Seasons     |✅|✅|
 | Violet Detector                 |❌|❔|
