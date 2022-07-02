@@ -54,7 +54,7 @@ FPSTarget th14_replay_callback() {
 		auto input = *(DWORD*)0x004D6878;
 		if (input & InputState::Focus)
 			return FPSTarget::ReplaySlow;
-		else if (input & InputState::Skip)
+		else if (input & (InputState::Skip | InputState::Shoot))
 			return FPSTarget::ReplaySkip;
 	}
 	return FPSTarget::Game;

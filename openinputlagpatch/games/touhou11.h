@@ -7,6 +7,7 @@ namespace Touhou11 {
 	auto CWindowManager__UpdateFast = (int(__stdcall*)(void*))0x00446420;
 
 	enum InputState {
+		Shoot = 1,
 		Focus = 8,
 		Skip = 0x200,
 	};

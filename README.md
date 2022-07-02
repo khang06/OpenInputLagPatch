@@ -30,7 +30,7 @@ Not every game is supported, but support for more games is actively being worked
 | Hidden Star in Four Seasons     |✅|✅|
 | Violet Detector                 |❌|❔|
 | Wily Beast and Weakest Creature |✅|✅|
-| Unconnected Marketeers          |❌|❔|
+| Unconnected Marketeers          |✅|✅|
 | Danmakufu v0.12m                |❌|❔|
 | Danmakufu ph3                   |❌|❔|
 
@@ -49,7 +49,7 @@ GameFPS = 60
 ; Default: 1
 ReplaySpeedControl = 1
 
-; Target framerate for replay skipping (hold LCTRL during replay playback)
+; Target framerate for replay skipping (hold LCTRL or attack key during replay playback)
 ; Default: 240
 ReplaySkipFPS = 240
 

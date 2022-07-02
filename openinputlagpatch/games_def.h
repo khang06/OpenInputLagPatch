@@ -26,6 +26,7 @@ std::vector<std::vector<const char*>> game_hashes{
 		"21ad97e6736d204bc25e1d46ccf765106c0fafd349152041ffc0b007ac5b5d6c", // DDC v1.00b XP patch
 		"b3dc4ac8879d2c4d16cc611d2daeea6b6d9fe624a7b4a48806989ccefa377963", // LoLK v1.00a original
 		"efee757025f18f3b8a6409bc3b760e431632d79a4b90734dedf50c4ed75564ba", // WBaWC v1.00b original
+		"6b287f8826bf703ac82bf97ac65f7343d32dfffacc875a20fd84a1a0bae7a8c1", // UM v1.00a original
 	},
 	// Touhou 6: Embodiment of Scarlet Devil v1.02h
 	{
@@ -110,6 +111,13 @@ std::vector<std::vector<const char*>> game_hashes{
 		"85cb011e2e43b316c8fa42a3c402565ecdf2f4379f3bab66d86bcb7beef8255f", // Original
 		"844394479663eb7f50f98b9c2c2f6bd7b6bc6f1b1ddb93744adb656b19802311", // XP patch
 		"470769ddfbac9404b3fdacbb05893fae387943c22605935ea5ec6caee8388d4d", // Steam release
+	},
+	// Touhou 18: Unconnected Marketeers v1.00a
+	{
+		"5aeb74b19939a29a8cf06e4fe7777aaf9139e93478507e039f43318171020e9f", // Original
+		"9ed66e6952459e81515c17a671410bee7014a83e3c6cc6a7e360e7b4904c62f4", // Steam release
+		"9f36c8e5c37b5979e99834a0b5bb46c05e863438ca01c246d68e87287bf2318b", // Unpacked Steam release
+		"6243e3624ae5100eaa5ded846e2d9b2d9e438ee7c20735e197c9c8170fb9627f", // Unpacked Steam release (Steamless v3.0.0.11)
 	}
 };
 
@@ -127,6 +135,7 @@ const char* game_to_string[] = {
 	"Touhou 15 v1.00b",
 	"Touhou 16 v1.00a",
 	"Touhou 17 v1.00b",
+	"Touhou 18 v1.00a",
 };
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -146,6 +155,7 @@ GamePatchFunction game_to_patch_function[] = {
 	th15_install_patches,
 	th16_install_patches,
 	th17_install_patches,
+	th18_install_patches,
 };
 static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -163,6 +173,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th15_replay_callback,
 	th16_replay_callback,
 	th17_replay_callback,
+	th18_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif

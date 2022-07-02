@@ -1,15 +1,14 @@
 #pragma once
-// Touhou 15: Legacy of Lunatic Kingdom v1.00b
+// Touhou 18: Unconnected Marketeers v1.00a
 
 #include <Windows.h>
 
-namespace Touhou15 {
-	auto CWindowManager__UpdateFast = (int(__thiscall*)(void*))0x00472790;
+namespace Touhou18 {
+	auto CWindowManager__UpdateFast = (int(__thiscall*)(void*))0x00472DD0;
 
 	enum InputState {
 		Shoot = 1,
 		Focus = 8,
-		Skip = 0x200,
 	};
 
 	class CReplayManager {

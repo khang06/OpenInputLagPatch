@@ -74,7 +74,7 @@ FPSTarget th7_replay_callback() {
         auto input = get_input();
         if (input & InputState::Focus)
             return FPSTarget::ReplaySlow;
-        else if (input & InputState::Skip)
+        else if (input & (InputState::Skip | InputState::Shoot))
             return FPSTarget::ReplaySkip;
     }
     return FPSTarget::Game;
