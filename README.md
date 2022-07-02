@@ -16,7 +16,7 @@ Not every game is supported, but support for more games is actively being worked
 | Perfect Cherry Blossom          |✅|✅|
 | Imperishable Night              |✅|✅|
 | Phantasmagoria of Flower View   |✅|❌|
-| Shoot the Bullet                |❌|❔|
+| Shoot the Bullet                |✅|✅|
 | Mountain of Faith               |✅|✅|
 | Uwabami Breakers                |❌|❔|
 | Subterranean Animism            |✅|✅|
