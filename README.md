@@ -22,7 +22,7 @@ Not every game is supported, but support for more games is actively being worked
 | Subterranean Animism            |✅|✅|
 | Undefined Fantastic Object      |✅|✅|
 | Double Spoiler                  |✅|✅|
-| Great Fairy Wars                |❌|❔|
+| Great Fairy Wars                |✅|✅|
 | Ten Desires                     |✅|✅|
 | Double Dealing Character        |✅|✅|
 | Impossible Spell Card           |❌|❔|
