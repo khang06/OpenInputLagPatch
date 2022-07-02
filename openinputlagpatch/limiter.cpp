@@ -97,6 +97,52 @@ bool Limiter::SetGameFPS(int fps) {
 	return true;
 }
 
+// Simple spinwait function
+// As precise as possible, but eats up lots of CPU
+inline void spin_wait(__int64 target) {
+	LARGE_INTEGER cur_time;
+	QueryPerformanceCounter(&cur_time);
+	while (cur_time.QuadPart < target)
+		QueryPerformanceCounter(&cur_time);
+}
+
+// Half-spinwait, half-timer wait from vpatch
+// Creates a waitable timer until 1 ms before the target, then spins for the rest
+// Timer accuracy check not included
+bool half_spin_wait_inited = false;
+__int64 timer_1ms = 0; // 1 ms relative to the performance counter frequency
+double timer_freq_scale = 0; // Used for converting from performance counter -> FILETIME
+HANDLE waitable_timer = NULL;
+inline void half_spin_wait(__int64 target) {
+	if (!half_spin_wait_inited) {
+		LARGE_INTEGER freq;
+		QueryPerformanceFrequency(&freq);
+		timer_1ms = freq.QuadPart / 1000;
+		timer_freq_scale = 10000000.0 / (double)freq.QuadPart;
+		waitable_timer = CreateWaitableTimer(NULL, TRUE, NULL);
+		if (waitable_timer == NULL)
+			panic_msgbox(L"Failed to create waitable timer. GLE: 0x%x", GetLastError());
+		half_spin_wait_inited = true;
+	}
+
+	LARGE_INTEGER cur_time;
+	QueryPerformanceCounter(&cur_time);
+	auto diff = target - cur_time.QuadPart;
+	if (diff >= 0) {
+		if (diff >= timer_1ms) {
+			// Negative to indicate relative time for SetWaitableTimer
+			auto wait_amount = (__int64)((double)(diff - timer_1ms) * -timer_freq_scale);
+			if (wait_amount < 0) {
+				SetWaitableTimer(waitable_timer, (LARGE_INTEGER*)&wait_amount, 0, NULL, NULL, FALSE);
+				WaitForSingleObject(waitable_timer, INFINITE);
+			}
+		}
+		spin_wait(target);
+	}
+}
+
+// TODO: Implement https://blat-blatnik.github.io/computerBear/making-accurate-sleep-function/
+
 // Performs the actual frame limiting
 void Limiter::Tick() {
 	if (!initialized)
@@ -114,8 +160,14 @@ void Limiter::Tick() {
 
 	// Only resync the timer if a full frame has been skipped
 	if (target + wait_amount.QuadPart >= cur_time.QuadPart && last_wait_amount.QuadPart == wait_amount.QuadPart) {
-		while (cur_time.QuadPart < target)
-			QueryPerformanceCounter(&cur_time);
+		switch (Config::Sleep) {
+			case SleepType::Spin:
+				spin_wait(target);
+				break;
+			case SleepType::Vpatch:
+				half_spin_wait(target);
+				break;
+		}
 	} else {
 		printf("Frame limiter fell behind or target FPS has changed. Resyncing...\n");
 		last_wait_amount.QuadPart = wait_amount.QuadPart;

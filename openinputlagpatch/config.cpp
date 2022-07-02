@@ -7,6 +7,7 @@ BOOL Config::ReplaySpeedControl = TRUE;
 UINT Config::ReplaySkipFPS = 240;
 UINT Config::ReplaySlowFPS = 30;
 UINT Config::BltPrepareTime = 4;
+SleepType Config::Sleep = SleepType::Vpatch;
 BOOL Config::D3D9Ex = TRUE;
 TargetRefreshRate Config::FullscreenRefreshRate = TargetRefreshRate::MultipleOfSixty;
 BOOL Config::DebugConsole = FALSE;
@@ -28,6 +29,7 @@ bool Config::Load() {
 	Config::ReplaySkipFPS = GetPrivateProfileInt(L"Option", L"ReplaySkipFPS", Config::ReplaySkipFPS, config_path);
 	Config::ReplaySlowFPS = GetPrivateProfileInt(L"Option", L"ReplaySlowFPS", Config::ReplaySlowFPS, config_path);
 	Config::BltPrepareTime = GetPrivateProfileInt(L"Option", L"BltPrepareTime", Config::BltPrepareTime, config_path);
+	Config::Sleep = (SleepType)GetPrivateProfileInt(L"Option", L"Sleep", Config::Sleep, config_path);
 	Config::D3D9Ex = GetPrivateProfileInt(L"Option", L"D3D9Ex", Config::D3D9Ex, config_path);
 	Config::FullscreenRefreshRate = (TargetRefreshRate)GetPrivateProfileInt(L"Option", L"FullscreenRefreshRate", Config::FullscreenRefreshRate, config_path);
 	Config::DebugConsole = GetPrivateProfileInt(L"Option", L"DebugConsole", Config::DebugConsole, config_path);
@@ -43,6 +45,8 @@ bool Config::Load() {
 	if (Config::ReplaySlowFPS < 0)
 		Config::ReplaySlowFPS = 30;
 	Config::BltPrepareTime = max(0, min(Config::BltPrepareTime, 16));
+	if ((int)Config::Sleep > (int)SleepType::Vpatch)
+		Config::Sleep = SleepType::Vpatch;
 	if ((int)Config::FullscreenRefreshRate > (int)TargetRefreshRate::MultipleOfSixty)
 		Config::FullscreenRefreshRate = TargetRefreshRate::MultipleOfSixty;
 	if ((int)Config::GameOverride < (int)TouhouGame::Unknown || (int)Config::GameOverride >= (int)TouhouGame::MaxValue)

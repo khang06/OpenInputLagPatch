@@ -62,6 +62,11 @@ ReplaySlowFPS = 30
 ; Default: 4
 BltPrepareTime = 4
 
+; Chooses the method used for waiting between frames
+; 0: Basic spinwait (very accurate, but uses lots of CPU), 1: vpatch (slightly higher risk of skipping a frame depending on PC, but uses way less CPU)
+; Default: 1
+Sleep = 1
+
 ; Use Direct3D9Ex instead of Direct3D9 to allow reducing input lag by 0 to 2 frames
 ; Has no effect on Touhou 9.5 and below if d3d8to9 isn't being used
 ; Default: 1

@@ -10,6 +10,11 @@ enum TargetRefreshRate {
 	MultipleOfSixty,
 };
 
+enum SleepType {
+	Spin,
+	Vpatch,
+};
+
 // See the README for documentation on these values
 class Config {
 public:
@@ -20,6 +25,7 @@ public:
 	static UINT ReplaySkipFPS;
 	static UINT ReplaySlowFPS;
 	static UINT BltPrepareTime;
+	static SleepType Sleep;
 	static BOOL D3D9Ex;
 	static TargetRefreshRate FullscreenRefreshRate;
 	static BOOL DebugConsole;
