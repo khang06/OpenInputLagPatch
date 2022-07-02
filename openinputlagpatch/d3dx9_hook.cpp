@@ -13,7 +13,7 @@ HRESULT __stdcall D3DXCreateTexture_hook(LPDIRECT3DDEVICE9 pDevice, UINT Width, 
 {
 	if (Pool == D3DPOOL_MANAGED) {
 		Pool = D3DPOOL_DEFAULT;
-		Usage = D3DUSAGE_DYNAMIC;
+		Usage |= D3DUSAGE_DYNAMIC;
 	}
 	return D3DXCreateTexture_orig(pDevice, Width, Height, MipLevels, Usage, Format, Pool, ppTexture);
 }
@@ -29,7 +29,7 @@ HRESULT __stdcall D3DXCreateTextureFromFileInMemoryEx_hook(LPDIRECT3DDEVICE9 pDe
 {
 	if (Pool == D3DPOOL_MANAGED) {
 		Pool = D3DPOOL_DEFAULT;
-		Usage = D3DUSAGE_DYNAMIC;
+		Usage |= D3DUSAGE_DYNAMIC;
 	}
 	return D3DXCreateTextureFromFileInMemoryEx_orig(pDevice, pSrcData, SrcDataSize, Width, Height, MipLevels, Usage, Format,
 		Pool, Filter, MipFilter, ColorKey, pSrcInfo, pPalette, ppTexture);

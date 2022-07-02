@@ -25,6 +25,7 @@ std::vector<std::vector<const char*>> game_hashes{
 		"bafc4bdde9745623f9ae1c57f7e26f6f98952847255a8b872b0909ccb99d9ba1", // DDC v1.00b original
 		"21ad97e6736d204bc25e1d46ccf765106c0fafd349152041ffc0b007ac5b5d6c", // DDC v1.00b XP patch
 		"b3dc4ac8879d2c4d16cc611d2daeea6b6d9fe624a7b4a48806989ccefa377963", // LoLK v1.00a original
+		"efee757025f18f3b8a6409bc3b760e431632d79a4b90734dedf50c4ed75564ba", // WBaWC v1.00b original
 	},
 	// Touhou 6: Embodiment of Scarlet Devil v1.02h
 	{
@@ -104,6 +105,12 @@ std::vector<std::vector<const char*>> game_hashes{
 		"aee27f70c2b9f7e7acba15b3b35449c79e4d707e404646362b8edf961a574731", // Steam release
 		"28706073602c95bccafd86ee535b54e8ab9312cf6d211343c7ceab5bad7968da", // Unpacked Steam release
 	},
+	// Touhou 17: Wily Beast and Weakest Creature v1.00b
+	{
+		"85cb011e2e43b316c8fa42a3c402565ecdf2f4379f3bab66d86bcb7beef8255f", // Original
+		"844394479663eb7f50f98b9c2c2f6bd7b6bc6f1b1ddb93744adb656b19802311", // XP patch
+		"470769ddfbac9404b3fdacbb05893fae387943c22605935ea5ec6caee8388d4d", // Steam release
+	}
 };
 
 const char* game_to_string[] = {
@@ -119,6 +126,7 @@ const char* game_to_string[] = {
 	"Touhou 14 v1.00b",
 	"Touhou 15 v1.00b",
 	"Touhou 16 v1.00a",
+	"Touhou 17 v1.00b",
 };
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -137,6 +145,7 @@ GamePatchFunction game_to_patch_function[] = {
 	th14_install_patches,
 	th15_install_patches,
 	th16_install_patches,
+	th17_install_patches,
 };
 static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -153,6 +162,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th14_replay_callback,
 	th15_replay_callback,
 	th16_replay_callback,
+	th17_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif

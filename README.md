@@ -29,7 +29,7 @@ Not every game is supported, but support for more games is actively being worked
 | Legacy of Lunatic Kingdom       |✅|✅|
 | Hidden Star in Four Seasons     |✅|✅|
 | Violet Detector                 |❌|❔|
-| Wily Beast and Weakest Creature |❌|❔|
+| Wily Beast and Weakest Creature |✅|✅|
 | Unconnected Marketeers          |❌|❔|
 | Danmakufu v0.12m                |❌|❔|
 | Danmakufu ph3                   |❌|❔|

@@ -19,7 +19,7 @@ HRESULT __stdcall CreateTexture_hook(IDirect3DDevice9Ex* self, UINT Width, UINT 
 
 	if (Pool == D3DPOOL_MANAGED) {
 		Pool = D3DPOOL_DEFAULT;
-		Usage = D3DUSAGE_DYNAMIC;
+		Usage |= D3DUSAGE_DYNAMIC;
 	}
 	return CreateTexture_orig(self, Width, Height, Levels, Usage, Format, Pool, ppTexture, pSharedHandle);
 }
@@ -33,7 +33,7 @@ HRESULT __stdcall CreateVertexBuffer_hook(IDirect3DDevice9Ex* self, UINT Length,
 
 	if (Pool == D3DPOOL_MANAGED) {
 		Pool = D3DPOOL_DEFAULT;
-		Usage = D3DUSAGE_DYNAMIC;
+		Usage |= D3DUSAGE_DYNAMIC;
 	}
 	return CreateVertexBuffer_orig(self, Length, Usage, FVF, Pool, ppVertexBuffer, pSharedHandle);
 }
