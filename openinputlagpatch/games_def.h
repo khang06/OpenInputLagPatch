@@ -34,6 +34,7 @@ std::vector<std::vector<const char*>> game_hashes{
 		"f3a7fc52dbdf41158eb53ec329de7ef3b6701a8d7a18871a602ea9341a479163", // GFW v1.00a original
 		"9a182a73da9095505f86f3d27a86ed8b06f3c713193e28a2625b8e7dcb8b620c", // GFW v1.00a English patch
 		"1cd8c59991a9c36f508d80ad9ab9d7479e742139e9b1e1f50c08d4ecfa2f17f7", // ISC v1.00a original
+		"abca7c23404b1ee4cecc153acf225d21b3d6d403653a61852545a772fb18e5c6", // VD v1.00a original
 	},
 	// Touhou 6: Embodiment of Scarlet Devil v1.02h
 	{
@@ -149,6 +150,12 @@ std::vector<std::vector<const char*>> game_hashes{
 	{
 		"0162924204a6fea6d822e1a5872310c81168b0efbf565fb213bb38ba9f2290a6", // Original
 		"0b10dec9faaea9240fbdb821cd2cbe7dfbdb312070f3caa791f727ff58fa29ef", // Steam release
+	},
+	// Touhou 16.5: Violet Detector v1.00a
+	{
+		"ff4f5e0d0a2dcbb071b3a1f0652e8b864146ba155466ba0c57445013edd951af", // Original
+		"4ef283d9fdaef6f41a284813867cbb00dd4892532c0d4726da338e5bce64de01", // C key teleport mod
+		"f714fcf9ba44af81a4a144e410ec2729901440d00ced049591645f73826c8323", // Steam release
 	}
 };
 
@@ -171,6 +178,7 @@ const char* game_to_string[] = {
 	"Touhou 12.5 v1.00a",
 	"Touhou 12.8 v1.00a",
 	"Touhou 14.3 v1.00a",
+	"Touhou 16.5 v1.00a",
 };
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -195,6 +203,7 @@ GamePatchFunction game_to_patch_function[] = {
 	th125_install_patches,
 	th128_install_patches,
 	th143_install_patches,
+	th165_install_patches,
 };
 static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -217,6 +226,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th125_replay_callback,
 	th128_replay_callback,
 	th143_replay_callback,
+	th165_replay_callback,
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif
