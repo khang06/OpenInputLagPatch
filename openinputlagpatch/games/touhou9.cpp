@@ -32,3 +32,14 @@ void th9_install_patches() {
         patch_call((void*)0x0042E6A6, th9_window_update_hook);
     }
 }
+
+FPSTarget th9_replay_callback() {
+    if (CGame::Instance->replay && CGame::Instance->replay->is_replay) {
+        auto input = get_input(2);
+        if (input & InputState::Focus)
+            return FPSTarget::ReplaySlow;
+        else if (input & (InputState::Skip | InputState::Shoot))
+            return FPSTarget::ReplaySkip;
+    }
+    return FPSTarget::Game;
+}

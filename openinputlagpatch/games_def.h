@@ -213,7 +213,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th10_replay_callback,
 	th7_replay_callback,
 	th8_replay_callback,
-	nullptr, // TODO: Can't just read a pointer for the input values in replay mode, we have to read input from DirectInput/GetKeyboardState manually
+	th9_replay_callback,
 	th11_replay_callback,
 	th12_replay_callback,
 	th13_replay_callback,

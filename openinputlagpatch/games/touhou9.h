@@ -21,6 +21,7 @@ namespace Touhou9 {
 		S = 0x400,
 		Enter = 0x800
 	};
+	auto get_input = ((__int16(__fastcall*)(int side))0x0042B850);
 
 	auto CWindowManager__Update = (int(__thiscall*)(void*))0x0042DC40;
 
@@ -51,12 +52,24 @@ namespace Touhou9 {
 	};
 	static_assert(sizeof(CEngine) == 0x7B0, "Struct is the wrong size");
 
+	class CReplay
+	{
+	public:
+		BYTE gap0[276];
+		int is_replay;
+		BYTE gap118[72];
+		int field_160;
+	};
+	static_assert(sizeof(CReplay) == 0x164, "Struct is the wrong size");
+	
 	class CGame
 	{
 	public:
 		static CGame* Instance;
 
-		BYTE gap0[308];
+		BYTE gap0[212];
+		CReplay* replay;
+		BYTE gapD8[92];
 		char flags;
 		BYTE gap135[599];
 		int field_38C;
