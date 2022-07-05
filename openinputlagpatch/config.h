@@ -28,6 +28,7 @@ public:
 	static SleepType Sleep;
 	static BOOL D3D9Ex;
 	static TargetRefreshRate FullscreenRefreshRate;
+	static BOOL ShowOverlay;
 	static BOOL DebugConsole;
 	static BOOL DebugWait;
 	static BOOL FixInputGlitching;

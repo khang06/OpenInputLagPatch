@@ -10,6 +10,7 @@ UINT Config::BltPrepareTime = 4;
 SleepType Config::Sleep = SleepType::Vpatch;
 BOOL Config::D3D9Ex = TRUE;
 TargetRefreshRate Config::FullscreenRefreshRate = TargetRefreshRate::MultipleOfSixty;
+BOOL Config::ShowOverlay = FALSE;
 BOOL Config::DebugConsole = FALSE;
 BOOL Config::DebugWait = FALSE;
 BOOL Config::FixInputGlitching = FALSE;
@@ -32,6 +33,7 @@ bool Config::Load() {
 	Config::Sleep = (SleepType)GetPrivateProfileInt(L"Option", L"Sleep", Config::Sleep, config_path);
 	Config::D3D9Ex = GetPrivateProfileInt(L"Option", L"D3D9Ex", Config::D3D9Ex, config_path);
 	Config::FullscreenRefreshRate = (TargetRefreshRate)GetPrivateProfileInt(L"Option", L"FullscreenRefreshRate", Config::FullscreenRefreshRate, config_path);
+	Config::ShowOverlay = GetPrivateProfileInt(L"Option", L"ShowOverlay", Config::ShowOverlay, config_path);
 	Config::DebugConsole = GetPrivateProfileInt(L"Option", L"DebugConsole", Config::DebugConsole, config_path);
 	Config::DebugWait = GetPrivateProfileInt(L"Option", L"DebugWait", Config::DebugWait, config_path);
 	Config::FixInputGlitching = GetPrivateProfileInt(L"Option", L"FixInputGlitching", Config::FixInputGlitching, config_path);

@@ -3,15 +3,6 @@
 #include <Windows.h>
 #include "games.h"
 
-/*
-extern bool limiter_initialized;
-extern LARGE_INTEGER perf_freq;
-extern DWORD queued_wait_amount;
-
-void limiter_init();
-void limiter_tick();
-*/
-
 // Frame limiter based on vpatch
 class Limiter {
 public:
@@ -31,4 +22,6 @@ private:
 	static LARGE_INTEGER blt_prepare_time;
 	static LARGE_INTEGER perf_freq;
 	static ReplayCallback replay_callback;
+	static LARGE_INTEGER frame_start;
+	static LARGE_INTEGER frame_end;
 };

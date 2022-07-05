@@ -104,6 +104,9 @@
     <ClCompile Include="games\touhou165.cpp">
       <Filter>Source Files\games</Filter>
     </ClCompile>
+    <ClCompile Include="d3d9_overlay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="patch_util.h">
@@ -195,6 +198,12 @@
     </ClInclude>
     <ClInclude Include="games\touhou165.h">
       <Filter>Header Files\games</Filter>
+    </ClInclude>
+    <ClInclude Include="overlay_font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d9_overlay.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

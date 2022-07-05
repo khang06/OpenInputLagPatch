@@ -1,49 +1,13 @@
 // Basic frame limiter
-// Heavily simplified version of vpatch's limiter with no timers or fancy autobltpreparetime
+// Heavily simplified version of vpatch's limiter with no fancy autobltpreparetime
 
 #include <Windows.h>
 #include <stdio.h>
 #include "d3d9_hook.h"
 #include "config.h"
 #include "common.h"
+#include "d3d9_overlay.h"
 #include "limiter.h"
-
-/*
-bool limiter_initialized = false;
-LARGE_INTEGER limiter_start;
-unsigned int frame_num;
-LARGE_INTEGER wait_amount;
-LARGE_INTEGER blt_prepare_time;
-LARGE_INTEGER perf_freq;
-DWORD queued_wait_amount = 0;
-
-void limiter_init() {
-	QueryPerformanceFrequency(&perf_freq);
-	QueryPerformanceCounter(&limiter_start);
-	wait_amount.QuadPart = (LONGLONG)((double)perf_freq.QuadPart / (double)Config::GameFPS);
-	queued_wait_amount = wait_amount.LowPart;
-	blt_prepare_time.QuadPart = perf_freq.QuadPart / 1000 * (LONGLONG)Config::BltPrepareTime;
-	limiter_initialized = true;
-}
-
-void limiter_tick() {
-	__int64 target = limiter_start.QuadPart + ++frame_num * wait_amount.QuadPart;
-	LARGE_INTEGER cur_time;
-	QueryPerformanceCounter(&cur_time);
-	if (target - blt_prepare_time.QuadPart >= cur_time.QuadPart && queued_wait_amount == wait_amount.LowPart) {
-		while (cur_time.QuadPart < target)
-			QueryPerformanceCounter(&cur_time);
-	} else {
-		printf("Frame limiter fell behind or target FPS has changed. Resyncing...\n");
-		wait_amount.LowPart = queued_wait_amount;
-		if (d3d9ex_device)
-			d3d9ex_device->WaitForVBlank(0);
-		QueryPerformanceCounter(&cur_time);
-		limiter_start.QuadPart = cur_time.QuadPart;
-		frame_num = 0;
-	}
-}
-*/
 
 bool Limiter::initialized = false;
 LARGE_INTEGER Limiter::start_time;
@@ -53,6 +17,8 @@ LARGE_INTEGER Limiter::last_wait_amount;
 LARGE_INTEGER Limiter::blt_prepare_time;
 LARGE_INTEGER Limiter::perf_freq;
 ReplayCallback Limiter::replay_callback = nullptr;
+LARGE_INTEGER Limiter::frame_start;
+LARGE_INTEGER Limiter::frame_end;
 
 // Initializes the limiter's timers, settings, etc
 void Limiter::Initialize(ReplayCallback callback) {
@@ -61,6 +27,8 @@ void Limiter::Initialize(ReplayCallback callback) {
 	QueryPerformanceCounter(&start_time);
 
 	last_wait_amount.QuadPart = 0;
+	frame_start.QuadPart = 0;
+	frame_end.QuadPart = 0;
 
 	initialized = true;
 }
@@ -148,6 +116,19 @@ void Limiter::Tick() {
 	if (!initialized)
 		panic_msgbox(L"Tried to tick the limiter before initialization.");
 
+	// Calculate how much time it took for the game to process this frame
+	__int64 frame_elapsed = 0;
+	if (frame_start.QuadPart != 0) {
+		LARGE_INTEGER frame_end;
+		QueryPerformanceCounter(&frame_end);
+		frame_elapsed = frame_end.QuadPart - frame_start.QuadPart;
+
+		if (D3D9Overlay::Instance && frame_num % 30 == 0) {
+			D3D9Overlay::Instance->SetText("%.2f/%.2fms", frame_elapsed / (float)perf_freq.QuadPart * 1000.0, (float)Config::BltPrepareTime);
+			D3D9Overlay::Instance->text_color = frame_elapsed > blt_prepare_time.QuadPart ? 0xFFFF0000 : 0xFFFFFFFF;
+		}
+	}
+
 	// Set up the target time before returning
 	bool temp_fps_change = UpdateTargetFPS();
 	__int64 target = start_time.QuadPart + ++frame_num * wait_amount.QuadPart;
@@ -177,4 +158,7 @@ void Limiter::Tick() {
 		start_time.QuadPart = cur_time.QuadPart;
 		frame_num = 0;
 	}
+
+	// Record the frame start time
+	QueryPerformanceCounter(&frame_start);
 }

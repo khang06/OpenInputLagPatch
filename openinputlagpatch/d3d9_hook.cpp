@@ -6,6 +6,7 @@
 #include "patch_util.h"
 #include "common.h"
 #include "config.h"
+#include "d3d9_overlay.h"
 
 static IDirect3D9Ex* d3d9ex = nullptr;
 static IDirect3DDevice9Ex* d3d9ex_device = nullptr;
@@ -106,10 +107,23 @@ HRESULT __stdcall Reset_hook(IDirect3DDevice9Ex* self, D3DPRESENT_PARAMETERS* pP
 	D3DDISPLAYMODEEX display_mode = {};
 	get_fullscreen_display_mode(pPresentationParameters, &display_mode);
 
+	if (D3D9Overlay::Instance)
+		delete D3D9Overlay::Instance;
+	D3D9Overlay::Instance = new D3D9Overlay((IDirect3DDevice9*)self, pPresentationParameters->BackBufferWidth, pPresentationParameters->BackBufferHeight);
+
 	return self->ResetEx(pPresentationParameters, pPresentationParameters->Windowed ? NULL : &display_mode);
 }
 
+// Renders the overlay if enabled
+auto EndScene_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*))nullptr;
+HRESULT __stdcall EndScene_hook(IDirect3DDevice9Ex* self) {
+	if (D3D9Overlay::Instance)
+		D3D9Overlay::Instance->Draw();
+	return EndScene_orig(self);
+}
+
 // Hooks certain D3D9Ex device functions for better compatibility and to force disable vsync
+bool first_device_creation = true;
 HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags,
 	D3DPRESENT_PARAMETERS* pPresentationParameters, IDirect3DDevice9Ex** ppReturnedDeviceInterface)
 {
@@ -144,18 +158,33 @@ HRESULT __stdcall CreateDevice_hook(IDirect3D9Ex* self, UINT Adapter, D3DDEVTYPE
 	device->SetGPUThreadPriority(7);
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
 
-	// Overwrite some vtable entries in IDirect3DDevice9Ex
-	DWORD* device_vtbl = *(DWORD**)device;
-	auto patch_data = (DWORD)Reset_hook;
-	patch_bytes(&device_vtbl[16], &patch_data, sizeof(DWORD));
+	if (first_device_creation) {
+		// Overwrite some vtable entries in IDirect3DDevice9Ex
+		DWORD* device_vtbl = *(DWORD**)device;
+		auto patch_data = (DWORD)Reset_hook;
+		patch_bytes(&device_vtbl[16], &patch_data, sizeof(DWORD));
 
-	CreateTexture_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, IDirect3DTexture9**, HANDLE*))device_vtbl[23];
-	patch_data = (DWORD)CreateTexture_hook;
-	patch_bytes(&device_vtbl[23], &patch_data, sizeof(DWORD));
+		CreateTexture_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, IDirect3DTexture9**, HANDLE*))device_vtbl[23];
+		patch_data = (DWORD)CreateTexture_hook;
+		patch_bytes(&device_vtbl[23], &patch_data, sizeof(DWORD));
 
-	CreateVertexBuffer_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*, UINT, DWORD, DWORD, D3DPOOL, IDirect3DVertexBuffer9**, HANDLE*))device_vtbl[26];
-	patch_data = (DWORD)CreateVertexBuffer_hook;
-	patch_bytes(&device_vtbl[26], &patch_data, sizeof(DWORD));
+		CreateVertexBuffer_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*, UINT, DWORD, DWORD, D3DPOOL, IDirect3DVertexBuffer9**, HANDLE*))device_vtbl[26];
+		patch_data = (DWORD)CreateVertexBuffer_hook;
+		patch_bytes(&device_vtbl[26], &patch_data, sizeof(DWORD));
+
+		if (Config::ShowOverlay) {
+			EndScene_orig = (HRESULT(__stdcall*)(IDirect3DDevice9Ex*))device_vtbl[42];
+			patch_data = (DWORD)EndScene_hook;
+			patch_bytes(&device_vtbl[42], &patch_data, sizeof(DWORD));
+		}
+		
+		first_device_creation = false;
+	}
+
+	if (D3D9Overlay::Instance)
+		delete D3D9Overlay::Instance;
+	D3D9Overlay::Instance = new D3D9Overlay((IDirect3DDevice9*)device, pPresentationParameters->BackBufferWidth, pPresentationParameters->BackBufferHeight);
+	d3d9ex_device = device;
 
 	return 0;
 }

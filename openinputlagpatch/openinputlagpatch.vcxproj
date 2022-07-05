@@ -89,6 +89,7 @@
   <ItemGroup>
     <ClCompile Include="common.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="d3d9_overlay.cpp" />
     <ClCompile Include="d3dx9_hook.cpp" />
     <ClCompile Include="d3d9_hook.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="d3d8\d3d8.h" />
     <ClInclude Include="d3d8\d3d8caps.h" />
     <ClInclude Include="d3d8\d3d8types.h" />
+    <ClInclude Include="d3d9_overlay.h" />
     <ClInclude Include="d3dx9_hook.h" />
     <ClInclude Include="d3d9_hook.h" />
     <ClInclude Include="games.h" />
@@ -142,6 +144,7 @@
     <ClInclude Include="games\touhou95.h" />
     <ClInclude Include="games_def.h" />
     <ClInclude Include="limiter.h" />
+    <ClInclude Include="overlay_font.h" />
     <ClInclude Include="patch_util.h" />
     <ClInclude Include="sha256.h" />
     <ClInclude Include="games\touhou10.h" />
