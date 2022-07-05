@@ -144,6 +144,18 @@ void hook_winmm_time_period() {
     iat_hook(NULL, "winmm.dll", "timeEndPeriod", time_stub);
 }
 
+// TH14 and above break when they're forced to use a refresh rate above 60hz in fullscreen with these patches
+// This bypasses that by spoofing a 60hz display mode to the game
+int __stdcall GetDeviceCaps_hook(HDC hdc, int index) {
+    if (index == VREFRESH)
+        return 60;
+    return GetDeviceCaps(hdc, index);
+}
+
+void hook_gdi32() {
+    iat_hook(NULL, "gdi32.dll", "GetDeviceCaps", GetDeviceCaps_hook);
+}
+
 // Actually patches everything
 void install_patches() {
     auto game = detect_game();
@@ -154,6 +166,7 @@ void install_patches() {
 
     Limiter::Initialize(get_replay_callback(game));
     hook_winmm_time_period();
+    hook_gdi32();
     if (Config::D3D9Ex) {
         hook_d3d9();
         hook_d3dx9();

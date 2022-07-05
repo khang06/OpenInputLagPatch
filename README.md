@@ -59,8 +59,8 @@ ReplaySlowFPS = 30
 
 ; Amount of time in milliseconds before screen refresh to try running the game logic
 ; Lower is better, but it comes with a higher risk of the game not being able to run in time and causing more input lag
-; Default: 4
-BltPrepareTime = 4
+; Default: 2
+BltPrepareTime = 2
 
 ; Chooses the method used for waiting between frames
 ; 0: Basic spinwait (very accurate, but uses lots of CPU), 1: vpatch (slightly higher risk of skipping a frame depending on PC, but uses way less CPU)
@@ -76,6 +76,11 @@ D3D9Ex = 1
 ; 0: Maximum refresh rate, 1: 60hz, 2: Largest multiple of 60 (60hz, 120hz, 180hz, 240hz, etc.)
 ; Default: 2
 FullscreenRefreshRate = 2
+
+; Draws a small overlay in the bottom left of the screen showing how long it takes the game to render
+; Useful for tweaking BltPrepareTime
+; Default: 1
+ShowOverlay = 1
 
 ; Opens a console for debugging purposes
 ; Default: 0

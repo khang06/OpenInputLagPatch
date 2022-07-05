@@ -107,10 +107,6 @@ HRESULT __stdcall Reset_hook(IDirect3DDevice9Ex* self, D3DPRESENT_PARAMETERS* pP
 	D3DDISPLAYMODEEX display_mode = {};
 	get_fullscreen_display_mode(pPresentationParameters, &display_mode);
 
-	if (D3D9Overlay::Instance)
-		delete D3D9Overlay::Instance;
-	D3D9Overlay::Instance = new D3D9Overlay((IDirect3DDevice9*)self, pPresentationParameters->BackBufferWidth, pPresentationParameters->BackBufferHeight);
-
 	return self->ResetEx(pPresentationParameters, pPresentationParameters->Windowed ? NULL : &display_mode);
 }
 
