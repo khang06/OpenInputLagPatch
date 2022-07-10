@@ -72,7 +72,7 @@ Sleep = 1
 ; Default: 1
 D3D9Ex = 1
 
-; Chooses the refresh rate used by the game. Only works if D3D9Ex is enabled
+; Chooses the refresh rate used by the game
 ; 0: Maximum refresh rate, 1: 60hz, 2: Largest multiple of 60 (60hz, 120hz, 180hz, 240hz, etc.)
 ; Default: 2
 FullscreenRefreshRate = 2

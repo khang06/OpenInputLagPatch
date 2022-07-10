@@ -167,10 +167,9 @@ void install_patches() {
     Limiter::Initialize(get_replay_callback(game));
     hook_winmm_time_period();
     hook_gdi32();
-    if (Config::D3D9Ex) {
-        hook_d3d9();
+    hook_d3d9();
+    if (Config::D3D9Ex)
         hook_d3dx9();
-    }
 
     auto patch_function = get_patch_function(game);
     if (!patch_function)
