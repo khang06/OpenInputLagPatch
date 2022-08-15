@@ -31,6 +31,7 @@ Not every game is supported, but support for more games is actively being worked
 | Violet Detector                 |✅|✅|
 | Wily Beast and Weakest Creature |✅|✅|
 | Unconnected Marketeers          |✅|✅|
+| 100th Black Market              |✅|N/A|
 | Danmakufu v0.12m                |❌|❔|
 | Danmakufu ph3                   |❌|❔|
 

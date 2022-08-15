@@ -35,6 +35,7 @@ std::vector<std::vector<const char*>> game_hashes{
 		"9a182a73da9095505f86f3d27a86ed8b06f3c713193e28a2625b8e7dcb8b620c", // GFW v1.00a English patch
 		"1cd8c59991a9c36f508d80ad9ab9d7479e742139e9b1e1f50c08d4ecfa2f17f7", // ISC v1.00a original
 		"abca7c23404b1ee4cecc153acf225d21b3d6d403653a61852545a772fb18e5c6", // VD v1.00a original
+		"afa0747120a4b7ea97478d04a61908236cc82fe3b377248088df71e29673d83c", // 100BM v1.00a original
 	},
 	// Touhou 6: Embodiment of Scarlet Devil v1.02h
 	{
@@ -156,7 +157,13 @@ std::vector<std::vector<const char*>> game_hashes{
 		"ff4f5e0d0a2dcbb071b3a1f0652e8b864146ba155466ba0c57445013edd951af", // Original
 		"4ef283d9fdaef6f41a284813867cbb00dd4892532c0d4726da338e5bce64de01", // C key teleport mod
 		"f714fcf9ba44af81a4a144e410ec2729901440d00ced049591645f73826c8323", // Steam release
-	}
+	},
+	// Touhou 18.5: 100th Black Market v1.00a
+	{
+		"41de6934b12986afbc80c3484b452339ce02359737fc8a2aab0843a414d14b28", // Steam release
+		"25f3978d107890f540b1b813bfdda141727fcbdfdf5d9fc8f107d5812ea9f8e7", // Unpacked Steam release
+		"c0595fe926f2733612a29fac8288c50c6bdb0121ad6cce2bda9f2224b51671cc", // Unpacked Steam release (Steamless v3.0.0.11)
+	},
 };
 
 const char* game_to_string[] = {
@@ -179,6 +186,7 @@ const char* game_to_string[] = {
 	"Touhou 12.8 v1.00a",
 	"Touhou 14.3 v1.00a",
 	"Touhou 16.5 v1.00a",
+	"Touhou 18.5 v1.00a",
 };
 static_assert(sizeof(game_to_string) / sizeof(const char*) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -204,6 +212,7 @@ GamePatchFunction game_to_patch_function[] = {
 	th128_install_patches,
 	th143_install_patches,
 	th165_install_patches,
+	th185_install_patches
 };
 static_assert(sizeof(game_to_patch_function) / sizeof(GamePatchFunction) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 
@@ -227,6 +236,7 @@ ReplayCallback game_to_replay_callback[] = {
 	th128_replay_callback,
 	th143_replay_callback,
 	th165_replay_callback,
+	nullptr, // 18.5 has no (accessible) replay functionality
 };
 static_assert(sizeof(game_to_replay_callback) / sizeof(ReplayCallback) == (size_t)TouhouGame::MaxValue, "Forgot to update an array");
 #endif
