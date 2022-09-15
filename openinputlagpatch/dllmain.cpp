@@ -194,10 +194,11 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 }
 
 // Fake export to allow the dll to be loaded as dinput8.dll
+// NOTE: "/EXPORT:DirectInput8Create=_DirectInput8Create@20" must be added to the linker options
+// Otherwise, this will be exported as _DirectInput8Create@20 instead of DirectInput8Create
 extern "C" __declspec(dllexport) HRESULT WINAPI DirectInput8Create(HINSTANCE hinst, DWORD dwVersion,
     REFIID riidltf, LPVOID* ppvOut, LPUNKNOWN punkOuter)
 {
-    #pragma comment(linker, "/EXPORT:" __FUNCTION__ "=" __FUNCDNAME__)
     wchar_t real_dinput8_path[MAX_PATH] = {};
     GetSystemDirectoryW(real_dinput8_path, sizeof(real_dinput8_path) / sizeof(wchar_t));
     real_dinput8_path[MAX_PATH - 1] = 0;
