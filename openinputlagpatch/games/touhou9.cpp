@@ -20,16 +20,16 @@ void th9_install_patches() {
     {
         // Skip the original frame limiter
         BYTE patch[] = { 0xEB };
-        patch_bytes((void*)0x0042DC72, patch, sizeof(patch));
+        patch_bytes(0x0042DC72, patch, sizeof(patch));
     }
     {
         // Don't sleep in the main loop
         BYTE patch[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
-        patch_bytes((void*)0x0042DC64, patch, sizeof(patch));
+        patch_bytes(0x0042DC64, patch, sizeof(patch));
     }
     {
         // Hook window update
-        patch_call((void*)0x0042E6A6, th9_window_update_hook);
+        patch_call(0x0042E6A6, th9_window_update_hook);
     }
 }
 

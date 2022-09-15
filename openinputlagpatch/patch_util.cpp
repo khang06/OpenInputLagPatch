@@ -8,11 +8,19 @@ void patch_bytes(void* dst, void* src, size_t len) {
     VirtualProtect(dst, len, prot, &prot);
 }
 
+void patch_bytes(DWORD dst, void* src, size_t len) {
+    patch_bytes((void*)dst, src, len);
+}
+
 void patch_call(void* target, void* func) {
     BYTE patch[5];
     patch[0] = 0xE8;
     *(DWORD*)(patch + 1) = (DWORD)func - (DWORD)target - 5;
     patch_bytes(target, patch, sizeof(patch));
+}
+
+void patch_call(DWORD target, void* func) {
+    patch_call((void*)target, func);
 }
 
 void* iat_hook(LPCWSTR target, LPCSTR dll, LPCSTR func, void* hook) {

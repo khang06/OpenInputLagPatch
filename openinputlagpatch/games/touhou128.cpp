@@ -19,32 +19,32 @@ void th128_install_patches() {
 	{
 		// Skip the original frame limiter
 		BYTE patch[] = { 0xEB, 0x5B };
-		patch_bytes((void*)0x00454C14, patch, sizeof(patch));
+		patch_bytes(0x00454C14, patch, sizeof(patch));
 	}
 	{
 		// Force fast input latency mode
 		BYTE patch[] = { 0xEB };
-		patch_bytes((void*)0x00453D42, patch, sizeof(patch)); // Skip over automatic
-		patch_bytes((void*)0x00453D56, patch, sizeof(patch)); // Skip over normal
+		patch_bytes(0x00453D42, patch, sizeof(patch)); // Skip over automatic
+		patch_bytes(0x00453D56, patch, sizeof(patch)); // Skip over normal
 	}
 	{
 		// Hook window update
-		patch_call((void*)0x00453D72, th128_window_update_hook);
+		patch_call(0x00453D72, th128_window_update_hook);
 	}
 	if (Config::D3D9Ex) {
 		// Redirect Direct3DCreate9 call
 		// IAT is being hooked, but thcrap also hooks Direct3DCreate9 in the same place
 		// This should force our Direct3DCreate9 hook to be loaded no matter what
-		patch_call((void*)0x00453B8B, Direct3DCreate9_hook);
+		patch_call(0x00453B8B, Direct3DCreate9_hook);
 
 		// Extra NOP is needed because we're replacing a FF 15 call, which is 6 bytes long
 		BYTE patch[] = { 0x90 };
-		patch_bytes((void*)0x00453B90, patch, sizeof(patch));
+		patch_bytes(0x00453B90, patch, sizeof(patch));
 	}
 	if (Config::ReplaySpeedControl) {
 		// Skip the original replay speed control stuff
 		BYTE patch[] = { 0xEB };
-		patch_bytes((void*)0x0044204F, patch, sizeof(patch));
+		patch_bytes(0x0044204F, patch, sizeof(patch));
 	}
 }
 

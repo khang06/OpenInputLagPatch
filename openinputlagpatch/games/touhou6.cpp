@@ -56,27 +56,27 @@ void th6_install_patches() {
 	{
 		// Skip the original frame limiter
 		BYTE patch[] = { 0xE9, 0x9E, 0x00, 0x00, 0x00 };
-		patch_bytes((void*)0x004208ED, patch, sizeof(patch));
+		patch_bytes(0x004208ED, patch, sizeof(patch));
 	}
 	{
 		// Skip original draw chain update logic
 		BYTE patch[] = { 0xE9, 0xEE, 0x00 };
-		patch_bytes((void*)0x0042071A, patch, sizeof(patch));
+		patch_bytes(0x0042071A, patch, sizeof(patch));
 	}
 	{
 		// Hook calc chain update
 		// Shaves off 1 frame of input lag by calling calc chains BEFORE drawing
-		patch_call((void*)0x00420853, th6_update_calc_chain_hook);
+		patch_call(0x00420853, th6_update_calc_chain_hook);
 	}
     {
         // Hook window updating
         // Avoid eating up CPU time while minimized
-        patch_call((void*)0x004204FF, th6_window_update_hook);
+        patch_call(0x004204FF, th6_window_update_hook);
     }
     if (Config::FixInputGlitching) {
         // Fix input glitching
         BYTE patch[] = { 0x00, 0x00, 0x00, 0x00, 0x74 };
-        patch_bytes((void*)0x0041DC58, patch, sizeof(patch));
+        patch_bytes(0x0041DC58, patch, sizeof(patch));
     }
 }
 

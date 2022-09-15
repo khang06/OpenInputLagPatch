@@ -19,28 +19,28 @@ void th12_install_patches() {
 	{
 		// Skip the original frame limiter
 		BYTE patch[] = { 0xEB, 0x43 };
-		patch_bytes((void*)0x00450424, patch, sizeof(patch));
+		patch_bytes(0x00450424, patch, sizeof(patch));
 	}
 	{
 		// Force fast input latency mode
 		BYTE patch[] = { 0xEB };
-		patch_bytes((void*)0x0044F87A, patch, sizeof(patch)); // Skip over automatic
-		patch_bytes((void*)0x0044F88E, patch, sizeof(patch)); // Skip over normal
+		patch_bytes(0x0044F87A, patch, sizeof(patch)); // Skip over automatic
+		patch_bytes(0x0044F88E, patch, sizeof(patch)); // Skip over normal
 	}
 	{
 		// Hook window update
-		patch_call((void*)0x0044F8AA, th12_window_update_hook);
+		patch_call(0x0044F8AA, th12_window_update_hook);
 	}
 	if (Config::D3D9Ex) {
 		// Redirect Direct3DCreate9 call
 		// IAT is being hooked, but thcrap also hooks Direct3DCreate9 in the same place
 		// This should force our Direct3DCreate9 hook to be loaded no matter what
-		patch_call((void*)0x0044F6FC, Direct3DCreate9_hook);
+		patch_call(0x0044F6FC, Direct3DCreate9_hook);
 	}
 	if (Config::ReplaySpeedControl) {
 		// Skip the original replay speed control stuff
 		BYTE patch[] = { 0xEB };
-		patch_bytes((void*)0x0043C54F, patch, sizeof(patch));
+		patch_bytes(0x0043C54F, patch, sizeof(patch));
 	}
 }
 
