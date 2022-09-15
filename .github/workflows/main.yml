@@ -22,5 +22,5 @@ jobs:
         path: |
             Release/oilp_loader.exe
             Release/oilp_loader.pdb
-            Release/openinputlagpatch.pdb
+            Release/openinputlagpatch.dll
             Release/openinputlagpatch.pdb
