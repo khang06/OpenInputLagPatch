@@ -149,6 +149,12 @@ void install_patches() {
 
 // Main entrypoint
 void patcher_main() {
+    __int64 start;
+    __int64 end;
+    __int64 freq;
+    QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
+    QueryPerformanceCounter((LARGE_INTEGER*)&start);
+
     Config::Load();
     if (Config::DebugWait) {
         MessageBoxW(
@@ -163,6 +169,9 @@ void patcher_main() {
         create_console();
     check_vpatch();
     install_patches();
+
+    QueryPerformanceCounter((LARGE_INTEGER*)&end);
+    printf("Initialized in %f seconds\n", (double)(end - start) / (double)freq);
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
