@@ -1,0 +1,26 @@
+name: Nightly
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup MSBuild environment
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+          msbuild-architecture: x86
+    - name: Build solution
+      run: msbuild /m /p:Configuration=Release openinputlagpatch.sln
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: openinputlagpatch
+        path: |
+            Release/oilp_loader.exe
+            Release/oilp_loader.pdb
+            Release/openinputlagpatch.pdb
+            Release/openinputlagpatch.pdb
