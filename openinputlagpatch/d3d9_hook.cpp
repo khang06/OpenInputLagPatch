@@ -121,7 +121,7 @@ HRESULT __stdcall Reset_hook(IDirect3DDevice9* self, D3DPRESENT_PARAMETERS* pPre
 		ret = Reset_orig(self, pPresentationParameters);
 	}
 
-	printf("Reset returned 0x%x\n", ret);
+	printf("Reset returned 0x%lx\n", ret);
 
 	if (Config::ShowOverlay && SUCCEEDED(ret)) {
 		D3D9Overlay::Instance = new D3D9Overlay(d3d9_device, pPresentationParameters->BackBufferWidth, pPresentationParameters->BackBufferHeight);
@@ -246,9 +246,9 @@ IDirect3D9* WINAPI Direct3DCreate9_hook(UINT SDKVersion) {
 // Intercepts Direct3DCreate9 to Direct3DCreate9Ex
 void hook_d3d9() {
 	// Try to IAT hook Direct3DCreate9 from the main executable
-	if (!iat_hook(NULL, "d3d9.dll", "Direct3DCreate9", Direct3DCreate9_hook)) {
+	if (!iat_hook(NULL, "d3d9.dll", "Direct3DCreate9", (void*)&Direct3DCreate9_hook)) {
 		// Try to IAT hook the D3D8 wrapper
-		if (!iat_hook(L"d3d8.dll", "d3d9.dll", "Direct3DCreate9", Direct3DCreate9_hook)) {
+		if (!iat_hook(L"d3d8.dll", "d3d9.dll", "Direct3DCreate9", (void*)&Direct3DCreate9_hook)) {
 			// Okay, something went wrong
 			MessageBox(
 				NULL,

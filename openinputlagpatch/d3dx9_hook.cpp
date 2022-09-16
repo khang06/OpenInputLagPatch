@@ -42,10 +42,10 @@ void hook_d3dx9() {
 		char dll[128] = {};
 		sprintf_s(dll, "d3dx9_%d.dll", i);
 
-		auto orig = iat_hook(NULL, dll, "D3DXCreateTexture", D3DXCreateTexture_hook);
+		auto orig = iat_hook(NULL, dll, "D3DXCreateTexture", (void*)&D3DXCreateTexture_hook);
 		if (orig)
 			D3DXCreateTexture_orig = (D3DXCreateTexture_ty)orig;
-		orig = iat_hook(NULL, dll, "D3DXCreateTextureFromFileInMemoryEx", D3DXCreateTextureFromFileInMemoryEx_hook);
+		orig = iat_hook(NULL, dll, "D3DXCreateTextureFromFileInMemoryEx", (void*)&D3DXCreateTextureFromFileInMemoryEx_hook);
 		if (orig)
 			D3DXCreateTextureFromFileInMemoryEx_orig = (D3DXCreateTextureFromFileInMemoryEx_ty)orig;
 	}
