@@ -107,7 +107,7 @@
     <ClCompile Include="d3d9_overlay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="touhou185.cpp">
+    <ClCompile Include="games\touhou185.cpp">
       <Filter>Source Files\games</Filter>
     </ClCompile>
   </ItemGroup>
@@ -208,7 +208,7 @@
     <ClInclude Include="d3d9_overlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="touhou185.h">
+    <ClInclude Include="games\touhou185.h">
       <Filter>Header Files\games</Filter>
     </ClInclude>
   </ItemGroup>

@@ -124,7 +124,7 @@
     <ClCompile Include="games\touhou10.cpp" />
     <ClCompile Include="games\touhou6.cpp" />
     <ClCompile Include="games\touhou7.cpp" />
-    <ClCompile Include="touhou185.cpp" />
+    <ClCompile Include="games\touhou185.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -159,7 +159,7 @@
     <ClInclude Include="games\touhou10.h" />
     <ClInclude Include="games\touhou6.h" />
     <ClInclude Include="games\touhou7.h" />
-    <ClInclude Include="touhou185.h" />
+    <ClInclude Include="games\touhou185.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="openinputlagpatch.def" />
