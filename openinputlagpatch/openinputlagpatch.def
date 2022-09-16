@@ -1,4 +1,6 @@
 EXPORTS
+	DirectInput8Create
+
 	oilp_set_game_fps
 	oilp_get_game_fps
 	oilp_set_replay_skip_fps
