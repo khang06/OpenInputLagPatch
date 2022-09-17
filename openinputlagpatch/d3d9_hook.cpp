@@ -116,9 +116,35 @@ HRESULT __stdcall Reset_hook(IDirect3DDevice9* self, D3DPRESENT_PARAMETERS* pPre
 		get_fullscreen_display_mode(pPresentationParameters, &display_mode);
 
 		ret = ((IDirect3DDevice9Ex*)self)->ResetEx(pPresentationParameters, pPresentationParameters->Windowed ? NULL : &display_mode);
-	}
-	else {
-		ret = Reset_orig(self, pPresentationParameters);
+	} else {
+		// We overwrote thcrap_tsa's hook that fixes device loss errors on D3D9, so its functionality is replicated here
+		// This shouldn't apply to D3D9Ex because device loss behaves differently on it
+		ret = self->TestCooperativeLevel();
+		if (ret != D3D_OK) {
+			while (ret != D3D_OK) {
+				ret = self->TestCooperativeLevel();
+				switch (ret) {
+				case D3DERR_DEVICELOST:
+					// Can't regain the device right now, check back periodically
+					Sleep(16);
+					break;
+				case D3DERR_DEVICENOTRESET:
+					// Device can be reset!
+					ret = Reset_orig(self, pPresentationParameters);
+					if (FAILED(ret))
+						panic_msgbox(L"Reset failed!\nCode: 0x%x", ret);
+					break;
+				case D3D_OK:
+					// Shouldn't be possible but should be gracefully handled anyway
+					break;
+				default:
+					// Something definitely went wrong
+					panic_msgbox(L"TestCooperativeLevel failed!\nCode: 0x%x", ret);
+				}
+			}
+		} else {
+			ret = Reset_orig(self, pPresentationParameters);
+		}
 	}
 
 	printf("Reset returned 0x%lx\n", ret);
