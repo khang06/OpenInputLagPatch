@@ -12,6 +12,7 @@ SleepType Config::Sleep = SleepType::Vpatch;
 BOOL Config::D3D9Ex = TRUE;
 TargetRefreshRate Config::FullscreenRefreshRate = TargetRefreshRate::MultipleOfSixty;
 BOOL Config::ShowOverlay = TRUE;
+BOOL Config::ShowD3D8Warning = TRUE;
 BOOL Config::DebugConsole = FALSE;
 BOOL Config::DebugWait = FALSE;
 BOOL Config::FixInputGlitching = FALSE;
@@ -38,6 +39,7 @@ bool Config::Load() {
 	LOAD_SETTING(D3D9Ex);
 	LOAD_SETTING(FullscreenRefreshRate);
 	LOAD_SETTING(ShowOverlay);
+	LOAD_SETTING(ShowD3D8Warning);
 	LOAD_SETTING(DebugConsole);
 	LOAD_SETTING(DebugWait);
 	LOAD_SETTING(FixInputGlitching);
