@@ -276,15 +276,17 @@ void hook_d3d9() {
 		// Try to IAT hook the D3D8 wrapper
 		if (!iat_hook(L"d3d8.dll", "d3d9.dll", "Direct3DCreate9", (void*)&Direct3DCreate9_hook)) {
 			// Okay, something went wrong
-			MessageBox(
-				NULL,
-				L"Couldn't hook Direct3DCreate9.\n"
-				L"This usually means you don't have a D3D8 wrapper installed or the one you have is incompatible.\n"
-				L"The game will now likely run much worse than it should because certain D3D9 functions can't be intercepted\n"
-				L"Please install d3d8to9 for best results.",
-				L"OpenInputLagPatch",
-				MB_ICONWARNING
-			);
+			if (Config::ShowD3D8Warning) {
+				MessageBox(
+					NULL,
+					L"Couldn't hook Direct3DCreate9.\n"
+					L"This usually means you don't have a D3D8 wrapper installed or the one you have is incompatible.\n"
+					L"The game will now likely run much worse than it should because certain D3D9 functions can't be intercepted\n"
+					L"Please install d3d8to9 for best results.",
+					L"OpenInputLagPatch",
+					MB_ICONWARNING
+				);
+			}
 		}
 	}
 }

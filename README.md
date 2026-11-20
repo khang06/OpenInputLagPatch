@@ -83,6 +83,10 @@ FullscreenRefreshRate = 2
 ; Default: 1
 ShowOverlay = 1
 
+; Shows a warning on boot if Direct3DCreate9 couldn't be hooked (no D3D8 wrapper such as d3d8to9 is installed)
+; Default: 1
+ShowD3D8Warning = 1
+
 ; Opens a console for debugging purposes
 ; Default: 0
 DebugConsole = 0
